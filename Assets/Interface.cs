@@ -15,5 +15,7 @@ public struct PlayerCommands {
 
 public abstract class Interface : MonoBehaviour {
     public abstract void QueryEnv();
-    public abstract PlayerCommands Control(PlayerData data);
+    public abstract void NewData(PlayerData data);
+    public abstract bool HasCommands();
+    public abstract PlayerCommands GetCommands();
 }

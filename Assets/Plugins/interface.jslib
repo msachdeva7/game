@@ -6,11 +6,13 @@ mergeInto(LibraryManager.library, {
     stringToUTF8(returnStr, buffer, bufferSize);
     return buffer;
   },
-  control: function (data) {
-    var returnStr = window.unityBridge.control(Pointer_stringify(data));
-    var bufferSize = lengthBytesUTF8(returnStr) + 1;
-    var buffer = _malloc(bufferSize);
-    stringToUTF8(returnStr, buffer, bufferSize);
+  new_data: function (data, callback) {
+    var returnStr = window.unityBridge.new_data(Pointer_stringify(data), function (returnStr) {
+        var bufferSize = lengthBytesUTF8(returnStr) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(returnStr, buffer, bufferSize);
+        Runtime.dynCall('vi', callback, [buffer]);
+    });
     return buffer;
   },
 });

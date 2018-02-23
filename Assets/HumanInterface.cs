@@ -7,7 +7,14 @@ public class HumanInterface : Interface {
     public override void QueryEnv() {
     }
 
-    public override PlayerCommands Control(PlayerData data) {
+    public override void NewData(PlayerData data) {
+    }
+
+    public override bool HasCommands() {
+        return true;
+    }
+
+    public override PlayerCommands GetCommands() {
         PlayerCommands cmds;
         cmds.forward = Input.GetKey("w");
         cmds.backward = Input.GetKey("s");

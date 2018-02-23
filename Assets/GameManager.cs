@@ -3,21 +3,34 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKey("r")) 
+public class GameManager : MonoBehaviour {
+    public Interface inter;
+
+    // Use this for initialization
+    void Start () {
+        if (Application.platform == RuntimePlatform.WebGLPlayer) {
+            Debug.Log("In WebGL mode, using JSInterface");
+            inter = GetComponent<JSInterface>();
+        }
+        else {
+            Debug.Log("In non-WebGL mode, using HumanInterface");
+            inter = GetComponent<HumanInterface>();
+        }
+        if (inter == null) {
+            Debug.Log("No interface!");
+        }
+        inter.QueryEnv();
+    }
+
+    // Update is called once per frame
+    void Update () {
+        if (Input.GetKey("r"))
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void EndGame()
     {
-        
+
     }
 }

@@ -15,4 +15,7 @@ mergeInto(LibraryManager.library, {
     });
     return buffer;
   },
+  end_level: function (data) {
+    window.unityBridge.end_level(Pointer_stringify(data));
+  },
 });

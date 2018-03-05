@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 
 public class HumanInterface : Interface {
@@ -21,5 +22,10 @@ public class HumanInterface : Interface {
         cmds.left = Input.GetKey("a");
         cmds.right = Input.GetKey("d");
         return cmds;
+    }
+
+    public override void EndLevel(EndLevelData data) {
+        Debug.Log("Ending level");
+        Debug.Log(JsonUtility.ToJson(data));
     }
 }

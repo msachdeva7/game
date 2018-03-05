@@ -6,12 +6,13 @@ public class PlayerMovement : MonoBehaviour {
     public Rigidbody rb;
     public float speed;
     bool waitingForCommands = false;
+    int frames = 0;
 
     GameManager gm;
 
     // Use this for initialization
-    void Start () {
-        speed *= Time.deltaTime;
+    void Start() {
+        speed *= Time.fixedDeltaTime;
 
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         if (gm == null) {
@@ -19,8 +20,8 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
+    void FixedUpdate() {
+        frames++;
         if (waitingForCommands && gm.inter.HasCommands()) {
             waitingForCommands = false;
 
@@ -46,5 +47,11 @@ public class PlayerMovement : MonoBehaviour {
             gm.inter.NewData(data);
             waitingForCommands = true;
         }
+    }
+
+    public void EndLevel() {
+        EndLevelData data;
+        data.time = Mathf.RoundToInt(frames * Time.fixedDeltaTime);
+        gm.inter.EndLevel(data);
     }
 }

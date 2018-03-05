@@ -14,6 +14,9 @@ public class JSInterface : Interface {
     [DllImport("__Internal")]
     private static extern void new_data(string data, Callback callback);
 
+    [DllImport("__Internal")]
+    private static extern void end_level(string data);
+
     static PlayerCommands cmds;
     static bool hasCmds = false;
 
@@ -34,6 +37,12 @@ public class JSInterface : Interface {
     public override PlayerCommands GetCommands() {
         hasCmds = false;
         return cmds;
+    }
+
+    public override void EndLevel(EndLevelData data) {
+        Time.timeScale = 0;
+        FindObjectOfType<Camera>().enabled = false;
+        end_level(JsonUtility.ToJson(data));
     }
 
     [MonoPInvokeCallback(typeof(Callback))]

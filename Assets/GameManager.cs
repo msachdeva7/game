@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
     public Interface inter;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         if (Application.platform == RuntimePlatform.WebGLPlayer) {
             Debug.Log("In WebGL mode, using JSInterface");
             inter = GetComponent<JSInterface>();
@@ -21,16 +21,5 @@ public class GameManager : MonoBehaviour {
             Debug.Log("No interface!");
         }
         inter.QueryEnv();
-    }
-
-    // Update is called once per frame
-    void Update () {
-        if (Input.GetKey("r"))
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void EndGame()
-    {
-
     }
 }

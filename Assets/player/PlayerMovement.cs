@@ -6,11 +6,15 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour {
     public Rigidbody rb;
     public float drive_force;
+    public int updateEvery = 0;
+    public float radius = 10;
     bool waitingForCommands = false;
+    PlayerCommands cmds;
     int frames = 0;
     public Text speedText;
     //danger monitors if an object is nearby within an angle of +-15 deg in front of the car
     public bool danger = false;
+    int lastUpdate = 0;
 
     GameManager gm;
 
@@ -29,24 +33,26 @@ public class PlayerMovement : MonoBehaviour {
         frames++;
         if (gm.inter.HasCommands()) {
             waitingForCommands = false;
+            cmds = gm.inter.GetCommands();
+        }
 
-            PlayerCommands cmds = gm.inter.GetCommands();
+        if (cmds.forward) {
+            rb.AddForce(drive_force * Vector3.forward);
+        }
+        if (cmds.backward) {
+            rb.AddForce(drive_force * Vector3.back);
+        }
+        if (cmds.left) {
+            rb.AddForce(drive_force * Vector3.left);
+        }
+        if (cmds.right) {
+            rb.AddForce(drive_force * Vector3.right);
+        }
 
-            if (cmds.forward) {
-                rb.AddForce(drive_force*Vector3.forward);
-            }
-            if (cmds.backward) {
-                rb.AddForce(drive_force*Vector3.back);
-            }
-            if (cmds.left) {
-                rb.AddForce(drive_force*Vector3.left);
-            }
-            if (cmds.right) {
-                rb.AddForce(drive_force*Vector3.right);
-            }
+        if (!waitingForCommands && frames >= lastUpdate + updateEvery) {
+            lastUpdate = frames;
 
             //radius of collision warning
-            float radius = 10;
             Collider[] nearby = Physics.OverlapSphere(rb.position, radius);
             danger = false;
 
@@ -58,9 +64,7 @@ public class PlayerMovement : MonoBehaviour {
                 }
             }
             update_speed();
-        }
 
-        if (!waitingForCommands) {
             PlayerData data;
             data.drive_force = drive_force;
             gm.inter.NewData(data);
@@ -70,7 +74,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void EndLevel() {
         EndLevelData data;
-        data.time = Mathf.RoundToInt(frames * Time.fixedDeltaTime);
+        data.time = Mathf.RoundToInt(frames);// * Time.fixedDeltaTime);
         gm.inter.EndLevel(data);
     }
 

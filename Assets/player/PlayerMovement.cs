@@ -4,16 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
-    public Rigidbody rb;
+    // Psudo-constants
     public float drive_force;
     public int updateEvery = 0;
     public float radius = 10;
-    bool waitingForCommands = false;
-    PlayerCommands cmds;
-    int frames = 0;
+
+    public Rigidbody rb;
     public Text speedText;
     //danger monitors if an object is nearby within an angle of +-15 deg in front of the car
     public bool danger = false;
+
+    bool waitingForCommands = false;
+    PlayerCommands cmds;
+
+    int frames = 0;
     int lastUpdate = 0;
 
     GameManager gm;
@@ -57,7 +61,7 @@ public class PlayerMovement : MonoBehaviour {
             danger = false;
 
             for (int i = 0; i < nearby.Length; i++) {
-                float angle = Vector3.Angle(nearby[i].ClosestPointOnBounds(rb.position) - rb.position, Vector3.forward);
+                float angle = Vector3.Angle(nearby[i].ClosestPointOnBounds(rb.position) - rb.position, transform.forward);
 
                 if (angle <= 15f) {
                     danger = true;
@@ -66,7 +70,8 @@ public class PlayerMovement : MonoBehaviour {
             update_speed();
 
             PlayerData data;
-            data.drive_force = drive_force;
+            data.speed = rb.velocity.magnitude;
+            data.danger = danger;
             gm.inter.NewData(data);
             waitingForCommands = true;
         }

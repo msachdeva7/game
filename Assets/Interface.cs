@@ -5,7 +5,8 @@ using UnityEngine;
 
 [Serializable]
 public struct PlayerData {
-	public float drive_force;
+    public float speed;
+    public bool danger;
 }
 
 [Serializable]

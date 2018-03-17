@@ -566,6 +566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TheCar: {fileID: 2025260046}
+  rotationDamping: 10
 --- !u!23 &584657736
 MeshRenderer:
   m_ObjectHideFlags: 0

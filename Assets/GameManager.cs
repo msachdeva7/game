@@ -9,17 +9,17 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (Application.platform == RuntimePlatform.WebGLPlayer) {
+        if(Application.platform == RuntimePlatform.WebGLPlayer) {
             Debug.Log("In WebGL mode, using JSInterface");
             inter = GetComponent<JSInterface>();
-        }
-        else {
+		} 
+		else {
             Debug.Log("In non-WebGL mode, using HumanInterface");
             inter = GetComponent<HumanInterface>();
-        }
-        if (inter == null) {
+		}
+        if(inter == null) {
             Debug.Log("No interface!");
-        }
+		}
         inter.QueryEnv();
     }
 }

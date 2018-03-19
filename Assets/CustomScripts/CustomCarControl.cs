@@ -24,6 +24,7 @@ public class CustomCarControl : MonoBehaviour {
     int lastUpdate = 0;
 
     private void Start() {
+        gm = GameObject.Find ("GameManager").GetComponent<GameManager>();
         if(gm == null) {
             Debug.Log("Got no gm!");
         }

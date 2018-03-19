@@ -12,14 +12,14 @@ public class GameManager : MonoBehaviour {
         if(Application.platform == RuntimePlatform.WebGLPlayer) {
             Debug.Log("In WebGL mode, using JSInterface");
             inter = GetComponent<JSInterface>();
-		} 
-		else {
+        }
+        else {
             Debug.Log("In non-WebGL mode, using HumanInterface");
             inter = GetComponent<HumanInterface>();
-		}
+        }
         if(inter == null) {
             Debug.Log("No interface!");
-		}
+        }
         inter.QueryEnv();
     }
 }

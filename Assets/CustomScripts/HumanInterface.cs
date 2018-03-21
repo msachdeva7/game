@@ -17,10 +17,10 @@ public class HumanInterface : Interface {
 
     public override PlayerCommands GetCommands() {
         PlayerCommands cmds;
-        cmds.forward = Input.GetKey("w");
-        cmds.backward = Input.GetKey("s");
-        cmds.left = Input.GetKey("a");
-        cmds.right = Input.GetKey("d");
+        cmds.forward = Input.GetKey("e");
+        cmds.backward = Input.GetKey("f");
+        cmds.left = Input.GetKey("left");
+        cmds.right = Input.GetKey("right");
         return cmds;
     }
 

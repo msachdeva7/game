@@ -17,6 +17,7 @@ public struct PlayerCommands {
 [Serializable]
 public struct EndLevelData {
     public int time;
+    public float top_speed;
 }
 
 public abstract class Interface : MonoBehaviour {

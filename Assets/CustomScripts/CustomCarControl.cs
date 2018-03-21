@@ -20,6 +20,7 @@ public class CustomCarControl : MonoBehaviour {
     bool waitingForCommands = false;
     PlayerCommands cmds;
 
+    float top_speed = 0;
     int frames = 0;
     int lastUpdate = 0;
 
@@ -47,6 +48,7 @@ public class CustomCarControl : MonoBehaviour {
         // We can also have handbrake controls if we want them:
         float handbrake = 0f;
         m_Car.Move(h, v, v, handbrake);
+        top_speed = Math.Max(top_speed, rb.velocity.magnitude);
 
         if (!waitingForCommands && frames >= lastUpdate + updateEvery) {
             lastUpdate = frames;
@@ -75,6 +77,7 @@ public class CustomCarControl : MonoBehaviour {
     public void EndLevel() {
         EndLevelData data;
         data.time = Mathf.RoundToInt(frames);// * Time.fixedDeltaTime);
+        data.top_speed = top_speed;
         gm.inter.EndLevel(data);
     }
 

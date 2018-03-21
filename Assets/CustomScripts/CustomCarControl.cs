@@ -76,7 +76,8 @@ public class CustomCarControl : MonoBehaviour {
 
     public void EndLevel() {
         EndLevelData data;
-        data.time = Mathf.RoundToInt(frames);// * Time.fixedDeltaTime);
+        data.time = frames * Time.fixedDeltaTime;
+        data.frames = frames;
         data.top_speed = top_speed;
         gm.inter.EndLevel(data);
     }

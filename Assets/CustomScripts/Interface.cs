@@ -16,7 +16,8 @@ public struct PlayerCommands {
 
 [Serializable]
 public struct EndLevelData {
-    public int time;
+    public float time;
+    public int frames;
     public float top_speed;
 }
 

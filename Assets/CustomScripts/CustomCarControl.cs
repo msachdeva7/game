@@ -14,6 +14,7 @@ public class CustomCarControl : MonoBehaviour {
     public float radius = 10;
 
     public Text speedText;
+    public Text wonText;
     //danger monitors if an object is nearby within an angle of +-15 deg in front of the car
     public bool danger = false;
 
@@ -80,6 +81,9 @@ public class CustomCarControl : MonoBehaviour {
         data.frames = frames;
         data.top_speed = top_speed;
         gm.inter.EndLevel(data);
+        if (wonText.text == "") {
+            wonText.text = "Time: " + data.time + " s\nMax speed: " + top_speed + " m/s";
+        }
     }
 
     void update_speed (){

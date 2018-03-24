@@ -26,7 +26,7 @@ public class CustomCarControl : MonoBehaviour {
     int lastUpdate = 0;
 
     private void Start() {
-        gm = GameObject.Find ("GameManager").GetComponent<GameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         if(gm == null) {
             Debug.Log("Got no gm!");
         }
@@ -42,18 +42,12 @@ public class CustomCarControl : MonoBehaviour {
         if (gm.inter.HasCommands()) {
             waitingForCommands = false;
             cmds = gm.inter.GetCommands();
-			Debug.Log("Got commands!");
         }
-
-		if(!cmds.right) {
-			Debug.Log("Pressed right!");
-		}
 
         float h = Convert.ToSingle(cmds.right) - Convert.ToSingle(cmds.left);
         float v = Convert.ToSingle(cmds.forward) - Convert.ToSingle(cmds.backward);
-		float handbrake = Convert.ToSingle(cmds.handbrake);
-		m_Car.Move(h, v, v, handbrake);
-		Debug.Log("Sent move commands!");
+        float handbrake = Convert.ToSingle(cmds.handbrake);
+        m_Car.Move(h, v, v, handbrake);
 
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
 

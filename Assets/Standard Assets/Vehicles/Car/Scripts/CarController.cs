@@ -155,13 +155,9 @@ namespace UnityStandardAssets.Vehicles.Car
 
             //Set the handbrake.
             //Assuming that wheels 2 and 3 are the rear wheels.
-            if (handbrake > 0f)
-            {
-                var hbTorque = handbrake*m_MaxHandbrakeTorque;
-                m_WheelColliders[2].brakeTorque = hbTorque;
-                m_WheelColliders[3].brakeTorque = hbTorque;
-            }
-
+            var hbTorque = handbrake*m_MaxHandbrakeTorque;
+            m_WheelColliders[2].brakeTorque = Math.Max(m_WheelColliders[2].brakeTorque, hbTorque);
+            m_WheelColliders[3].brakeTorque = Math.Max(m_WheelColliders[3].brakeTorque, hbTorque);
 
             CalculateRevs();
             GearChanging();
@@ -229,6 +225,9 @@ namespace UnityStandardAssets.Vehicles.Car
                 {
                     m_WheelColliders[i].brakeTorque = 0f;
                     m_WheelColliders[i].motorTorque = -m_ReverseTorque*footbrake;
+                }
+                else {
+                    m_WheelColliders[i].brakeTorque = 0f;
                 }
             }
         }

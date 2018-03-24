@@ -17,21 +17,21 @@ public class HumanInterface : Interface {
 
     public override PlayerCommands GetCommands() {
         PlayerCommands cmds;
-		/* 
-		 * control scheme is as follows:
-		 * 
-		 * steering: A, LeftArrow - Turn left
-		 *           B, RightArrow - Turn right
-		 * throttle: W, UpArrow, LeftShift, E - throttle forward
-		 * 			 S, DownArrow, F - throttle backward
-		 * handbrake: X, Spacebar
-		 */
+        /*
+        * control scheme is as follows:
+        *
+        * steering: A, LeftArrow - Turn left
+        *           D, RightArrow - Turn right
+        * throttle: W, UpArrow, LeftShift, E - throttle forward
+        *           S, DownArrow, F - throttle backward
+        * handbrake: X, Spacebar
+        */
 
-		cmds.forward = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.LeftShift);
-		cmds.backward = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.F);
-		cmds.left = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
-		cmds.right = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
-		cmds.handbrake = Input.GetKey(KeyCode.X) || Input.GetKey(KeyCode.Space);
+        cmds.forward = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.LeftShift);
+        cmds.backward = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.F);
+        cmds.left = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
+        cmds.right = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
+        cmds.handbrake = Input.GetKey(KeyCode.X) || Input.GetKey(KeyCode.Space);
         return cmds;
     }
 

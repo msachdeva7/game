@@ -11,7 +11,7 @@ public struct PlayerData {
 
 [Serializable]
 public struct PlayerCommands {
-    public bool forward, backward, left, right;
+    public bool forward, backward, left, right, handbrake;
 }
 
 [Serializable]

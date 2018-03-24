@@ -49,6 +49,7 @@ public class JSInterface : Interface {
     public static void SetCommands(System.IntPtr ptr) {
         string value = Marshal.PtrToStringAuto(ptr);
         cmds = JsonUtility.FromJson<PlayerCommands>(value);
+		cmds.handbrake = false;
         hasCmds = true;
     }
 }

@@ -8,7 +8,7 @@ using UnityStandardAssets.Vehicles.Car;
 public class CustomCarControl : MonoBehaviour {
     public GameManager gm;
     public Rigidbody rb;
-    private CarController m_Car; // the car controller we want to use
+    public CarController m_Car; // the car controller we want to use
 
     public int updateEvery = 0;
     public float radius = 10;
@@ -42,13 +42,19 @@ public class CustomCarControl : MonoBehaviour {
         if (gm.inter.HasCommands()) {
             waitingForCommands = false;
             cmds = gm.inter.GetCommands();
+			Debug.Log("Got commands!");
         }
+
+		if(!cmds.right) {
+			Debug.Log("Pressed right!");
+		}
 
         float h = Convert.ToSingle(cmds.right) - Convert.ToSingle(cmds.left);
         float v = Convert.ToSingle(cmds.forward) - Convert.ToSingle(cmds.backward);
-        // We can also have handbrake controls if we want them:
-        float handbrake = 0f;
-        m_Car.Move(h, v, v, handbrake);
+		float handbrake = Convert.ToSingle(cmds.handbrake);
+		m_Car.Move(h, v, v, handbrake);
+		Debug.Log("Sent move commands!");
+
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
 
         if (!waitingForCommands && frames >= lastUpdate + updateEvery) {

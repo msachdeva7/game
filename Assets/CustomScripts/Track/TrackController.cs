@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class TrackController : MonoBehaviour {
 	
-	// Settings
-	private int numReturned = 10;
-	private int numMarkers;
-
 	public GameObject[] markers;
 	public int LastVisited = 0;
 	public Collider CarTracker;
+	private int numMarkers;
 
 		
 	void Start() {
@@ -19,7 +16,7 @@ public class TrackController : MonoBehaviour {
 
 	// The maintanance of LastVisited occurs via the Marker objects themselves, in the DetectCar component.
 
-	public Vector3[] GetNextMarkers() {
+	public Vector3[] GetNextMarkers(int numReturned) {
 		// returns an array containing the next markers/waypoints along the track
 		Vector3[] nextMarkers = new Vector3[numReturned];
 		for (int i = 0; i < numReturned; i++) {

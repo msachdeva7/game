@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class TrackController : MonoBehaviour {
     public GameObject[] markers;
-    public int lastVisited = -1;
+    public int numLaps;
+    private int lastVisited = -1;
     private int numMarkers;
+    private int lapsDone = 0;
+    private CustomCarControl car;
 
     void Start() {
+        car = GameObject.Find("Car").GetComponent<CustomCarControl>();
+        if(car == null) {
+            Debug.Log("Error: Got no car!");
+        }
         List<GameObject> marker_lst = new List<GameObject>();
         foreach (DetectCar dc in GetComponentsInChildren<DetectCar>()) {
             marker_lst.Add(dc.gameObject);
@@ -37,6 +44,12 @@ public class TrackController : MonoBehaviour {
         else if (index != lastVisited) {
             lastVisited = index;
             Debug.Log("Marker " + lastVisited + " crossed");
+            if (index == numMarkers - 1) {
+                lapsDone += 1;
+                if (lapsDone >= numLaps) {
+                    car.EndLevel();
+                }
+            }
         }
     }
 }

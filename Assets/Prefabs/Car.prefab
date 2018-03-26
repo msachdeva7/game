@@ -2366,6 +2366,7 @@ MonoBehaviour:
   updateEvery: 0
   obstacleDetectionDistance: 30
   obstacleDetectionRadius: 1
+  obstacleDetectionCenterExtension: 30
   speedText: {fileID: 0}
   wonText: {fileID: 0}
 --- !u!114 &114857321897824212

@@ -14,6 +14,7 @@ public class CustomCarControl : MonoBehaviour {
     public int updateEvery;
     public float obstacleDetectionDistance;
     public float obstacleDetectionRadius;
+    public float obstacleDetectionCenterExtension;
     const float NO_DETECTION = 10000;
 
     public Text speedText;
@@ -42,10 +43,10 @@ public class CustomCarControl : MonoBehaviour {
         m_Car = GetComponent<CarController>();
     }
 
-    private float ObstacleDetectionBeam(float angle, float min_angle, float max_angle) {
+    private float ObstacleDetectionBeam(float angle, float min_angle, float max_angle, float additional_distance=0) {
         Vector3 ray_direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
         RaycastHit hit;
-        if (Physics.SphereCast(rb.position, obstacleDetectionRadius, ray_direction, out hit, obstacleDetectionDistance, -1, QueryTriggerInteraction.Ignore)) {
+        if (Physics.SphereCast(rb.position, obstacleDetectionRadius, ray_direction, out hit, obstacleDetectionDistance + additional_distance, -1, QueryTriggerInteraction.Ignore)) {
             float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
             if (min_angle <= hitangle && hitangle < max_angle) {
                 return hit.distance;
@@ -88,7 +89,7 @@ public class CustomCarControl : MonoBehaviour {
 
             // If you change these values, make sure that the beams still overlap!
             // For a obstacleDetectionDistance of 30, the beam separation can be no more than 3 degrees.
-            data.obstacle_detection_center = CombineBeams(ObstacleDetectionBeam(-3, 0, 5), ObstacleDetectionBeam(0, 0, 90), ObstacleDetectionBeam(3, 0, 5));
+            data.obstacle_detection_center = CombineBeams(ObstacleDetectionBeam(-3, 0, 5), ObstacleDetectionBeam(0, 0, 90, obstacleDetectionCenterExtension), ObstacleDetectionBeam(3, 0, 5));
             data.obstacle_detection_left = CombineBeams(ObstacleDetectionBeam(-6, 5, 90), ObstacleDetectionBeam(-9, 5, 90), ObstacleDetectionBeam(-12, 5, 90));
             data.obstacle_detection_right = CombineBeams(ObstacleDetectionBeam(6, 5, 90), ObstacleDetectionBeam(9, 5, 90), ObstacleDetectionBeam(12, 5, 90));
 

@@ -16,6 +16,10 @@ public class TrackController : MonoBehaviour {
         numMarkers = markers.Length;
     }
 
+    public Vector3 GetNextMarker() {
+        return GetNextMarkers(1)[0];
+    }
+
     public Vector3[] GetNextMarkers(int numReturned) {
         // returns an array containing the next markers/waypoints along the track
         Vector3[] nextMarkers = new Vector3[numReturned];

@@ -7,6 +7,7 @@ using UnityEngine;
 public struct PlayerData {
     public float speed;
     public bool danger;
+    public float waypoint_distance, waypoint_bearing;
 }
 
 [Serializable]

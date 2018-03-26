@@ -7,6 +7,7 @@ using UnityStandardAssets.Vehicles.Car;
 [RequireComponent(typeof (CarController))]
 public class CustomCarControl : MonoBehaviour {
     public GameManager gm;
+    public TrackController tc;
     public Rigidbody rb;
     public CarController m_Car; // the car controller we want to use
 
@@ -28,7 +29,11 @@ public class CustomCarControl : MonoBehaviour {
     private void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         if(gm == null) {
-            Debug.Log("Got no gm!");
+            Debug.Log("Error: Got no gm!");
+        }
+        tc = GameObject.Find("TrackController").GetComponent<TrackController>();
+        if(tc == null) {
+            Debug.Log("Error: Got no tc!");
         }
     }
 
@@ -65,11 +70,14 @@ public class CustomCarControl : MonoBehaviour {
                     danger = true;
                 }
             }
-            update_speed();
 
             PlayerData data;
             data.speed = rb.velocity.magnitude;
             data.danger = danger;
+            Vector3 waypoint = tc.GetNextMarker() - rb.position;
+            data.waypoint_distance = waypoint.magnitude;
+            data.waypoint_bearing = Vector3.SignedAngle(waypoint, transform.forward, Vector3.up);
+            ShowData(data);
             gm.inter.NewData(data);
             waitingForCommands = true;
         }
@@ -86,7 +94,10 @@ public class CustomCarControl : MonoBehaviour {
         }
     }
 
-    void update_speed (){
-        speedText.text = (rb.velocity.magnitude).ToString() + " m/s " + (danger ? "danger" : "");
+    void ShowData(PlayerData data) {
+        speedText.text = (Convert.ToInt32(data.speed) + " m/s, waypoint at "
+                          + Convert.ToInt32(data.waypoint_bearing) + " deg "
+                          + Convert.ToInt32(data.waypoint_distance) + " m "
+                          + (data.danger ? "danger" : ""));
     }
 }

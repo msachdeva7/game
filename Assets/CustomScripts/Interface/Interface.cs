@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public struct PlayerData {
     public float speed;
-    public bool danger;
+    public float obstacle_detection_left, obstacle_detection_center, obstacle_detection_right;
     public float waypoint_distance, waypoint_bearing;
 }
 

@@ -11,13 +11,13 @@ public class CustomCarControl : MonoBehaviour {
     public Rigidbody rb;
     public CarController m_Car; // the car controller we want to use
 
-    public int updateEvery = 0;
-    public float radius = 10;
+    public int updateEvery;
+    public float obstacleDetectionDistance;
+    public float obstacleDetectionRadius;
+    const float NO_DETECTION = 10000;
 
     public Text speedText;
     public Text wonText;
-    //danger monitors if an object is nearby within an angle of +-15 deg in front of the car
-    public bool danger = false;
 
     bool waitingForCommands = false;
     PlayerCommands cmds;
@@ -42,6 +42,26 @@ public class CustomCarControl : MonoBehaviour {
         m_Car = GetComponent<CarController>();
     }
 
+    private float ObstacleDetectionBeam(float angle, float min_angle, float max_angle) {
+        Vector3 ray_direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
+        RaycastHit hit;
+        if (Physics.SphereCast(rb.position, obstacleDetectionRadius, ray_direction, out hit, obstacleDetectionDistance, -1, QueryTriggerInteraction.Ignore)) {
+            float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
+            if (min_angle <= hitangle && hitangle < max_angle) {
+                return hit.distance;
+            }
+        }
+        return NO_DETECTION;
+    }
+
+    private float CombineBeams(params float[] args) {
+        float min = NO_DETECTION;
+        foreach (float a in args) {
+            min = Math.Min(a, min);
+        }
+        return min;
+    }
+
     private void FixedUpdate() {
         frames++;
         if (gm.inter.HasCommands()) {
@@ -59,24 +79,19 @@ public class CustomCarControl : MonoBehaviour {
         if (!waitingForCommands && frames >= lastUpdate + updateEvery) {
             lastUpdate = frames;
 
-            //radius of collision warning
-            Collider[] nearby = Physics.OverlapSphere(rb.position, radius);
-            danger = false;
-
-            for (int i = 0; i < nearby.Length; i++) {
-                float angle = Vector3.Angle(nearby[i].ClosestPointOnBounds(rb.position) - rb.position, transform.forward);
-
-                if (angle <= 15f) {
-                    danger = true;
-                }
-            }
-
             PlayerData data;
             data.speed = rb.velocity.magnitude;
-            data.danger = danger;
+
             Vector3 waypoint = tc.GetNextMarker() - rb.position;
             data.waypoint_distance = waypoint.magnitude;
             data.waypoint_bearing = Vector3.SignedAngle(waypoint, transform.forward, Vector3.up);
+
+            // If you change these values, make sure that the beams still overlap!
+            // For a obstacleDetectionDistance of 30, the beam separation can be no more than 3 degrees.
+            data.obstacle_detection_center = CombineBeams(ObstacleDetectionBeam(-3, 0, 5), ObstacleDetectionBeam(0, 0, 90), ObstacleDetectionBeam(3, 0, 5));
+            data.obstacle_detection_left = CombineBeams(ObstacleDetectionBeam(-6, 5, 90), ObstacleDetectionBeam(-9, 5, 90), ObstacleDetectionBeam(-12, 5, 90));
+            data.obstacle_detection_right = CombineBeams(ObstacleDetectionBeam(6, 5, 90), ObstacleDetectionBeam(9, 5, 90), ObstacleDetectionBeam(12, 5, 90));
+
             ShowData(data);
             gm.inter.NewData(data);
             waitingForCommands = true;
@@ -98,6 +113,9 @@ public class CustomCarControl : MonoBehaviour {
         speedText.text = (Convert.ToInt32(data.speed) + " m/s, waypoint at "
                           + Convert.ToInt32(data.waypoint_bearing) + " deg "
                           + Convert.ToInt32(data.waypoint_distance) + " m "
-                          + (data.danger ? "danger" : ""));
+                          + (data.obstacle_detection_left != NO_DETECTION ? "danger left " + Convert.ToInt32(data.obstacle_detection_left) + " m " : "")
+                          + (data.obstacle_detection_center != NO_DETECTION ? "danger center " + Convert.ToInt32(data.obstacle_detection_center) + " m " : "")
+                          + (data.obstacle_detection_right != NO_DETECTION ? "danger right " + Convert.ToInt32(data.obstacle_detection_right) + " m " : "")
+                          );
     }
 }

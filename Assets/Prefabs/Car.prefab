@@ -2360,13 +2360,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gm: {fileID: 0}
+  tc: {fileID: 0}
   rb: {fileID: 54182488154425096}
   m_Car: {fileID: 0}
   updateEvery: 0
-  radius: 10
+  obstacleDetectionDistance: 30
+  obstacleDetectionRadius: 1
   speedText: {fileID: 0}
   wonText: {fileID: 0}
-  danger: 0
 --- !u!114 &114857321897824212
 MonoBehaviour:
   m_ObjectHideFlags: 1

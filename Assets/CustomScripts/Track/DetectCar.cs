@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DetectCar : MonoBehaviour {
+    public TrackController track_controller;
 
-	public TrackController TrackController;
+    private void Start() {
+        track_controller = GameObject.Find("TrackController").GetComponent<TrackController>();
+        if(track_controller == null) {
+            Debug.Log("Got no track controller!");
+        }
+    }
 
-	void OnTriggerEnter(Collider other) {
-		if (other == TrackController.CarTracker) {
-			int index = System.Array.IndexOf (TrackController.markers, this.gameObject);
-			TrackController.LastVisited = index;
-		}
-	}
+    void OnTriggerEnter(Collider other) {
+        if (other.tag == "Player") {
+            track_controller.CarVisit(this.gameObject);
+        }
+    }
 }

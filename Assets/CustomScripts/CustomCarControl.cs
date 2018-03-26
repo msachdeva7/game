@@ -17,8 +17,9 @@ public class CustomCarControl : MonoBehaviour {
     public float obstacleDetectionCenterExtension;
     const float NO_DETECTION = 10000;
 
-    public Text speedText;
-    public Text wonText;
+    public Text dataText;
+    public Text endLevelText;
+    public Text scriptText;
 
     bool waitingForCommands = false;
     PlayerCommands cmds;
@@ -35,6 +36,18 @@ public class CustomCarControl : MonoBehaviour {
         tc = GameObject.Find("TrackController").GetComponent<TrackController>();
         if(tc == null) {
             Debug.Log("Error: Got no tc!");
+        }
+        dataText = GameObject.Find("DataText").GetComponent<Text>();
+        if(dataText == null) {
+            Debug.Log("Error: Got no DataText!");
+        }
+        endLevelText = GameObject.Find("EndLevelText").GetComponent<Text>();
+        if(endLevelText == null) {
+            Debug.Log("Error: Got no EndLevelText!");
+        }
+        scriptText = GameObject.Find("ScriptText").GetComponent<Text>();
+        if(scriptText == null) {
+            Debug.Log("Error: Got no ScriptText!");
         }
     }
 
@@ -68,6 +81,7 @@ public class CustomCarControl : MonoBehaviour {
         if (gm.inter.HasCommands()) {
             waitingForCommands = false;
             cmds = gm.inter.GetCommands();
+            scriptText.text = cmds.message;
         }
 
         float h = Convert.ToSingle(cmds.right) - Convert.ToSingle(cmds.left);
@@ -83,9 +97,13 @@ public class CustomCarControl : MonoBehaviour {
             PlayerData data;
             data.speed = rb.velocity.magnitude;
 
-            Vector3 waypoint = tc.GetNextMarker() - rb.position;
+            Vector3[] waypoints = tc.GetNextMarkers(2);
+            Vector3 waypoint = waypoints[0] - rb.position;
             data.waypoint_distance = waypoint.magnitude;
             data.waypoint_bearing = Vector3.SignedAngle(waypoint, transform.forward, Vector3.up);
+            waypoint = waypoints[1] - rb.position;
+            data.future_waypoint_distance = waypoint.magnitude;
+            data.future_waypoint_bearing = Vector3.SignedAngle(waypoint, transform.forward, Vector3.up);
 
             // If you change these values, make sure that the beams still overlap!
             // For a obstacleDetectionDistance of 30, the beam separation can be no more than 3 degrees.
@@ -105,18 +123,18 @@ public class CustomCarControl : MonoBehaviour {
         data.frames = frames;
         data.top_speed = top_speed;
         gm.inter.EndLevel(data);
-        if (wonText.text == "") {
-            wonText.text = "Time: " + data.time + " s\nMax speed: " + top_speed + " m/s";
+        if (endLevelText.text == "") {
+            endLevelText.text = "Time: " + data.time + " s\nMax speed: " + top_speed + " m/s";
         }
     }
 
     void ShowData(PlayerData data) {
-        speedText.text = (Convert.ToInt32(data.speed) + " m/s, waypoint at "
-                          + Convert.ToInt32(data.waypoint_bearing) + " deg "
-                          + Convert.ToInt32(data.waypoint_distance) + " m "
-                          + (data.obstacle_detection_left != NO_DETECTION ? "danger left " + Convert.ToInt32(data.obstacle_detection_left) + " m " : "")
-                          + (data.obstacle_detection_center != NO_DETECTION ? "danger center " + Convert.ToInt32(data.obstacle_detection_center) + " m " : "")
-                          + (data.obstacle_detection_right != NO_DETECTION ? "danger right " + Convert.ToInt32(data.obstacle_detection_right) + " m " : "")
-                          );
+        dataText.text = (Convert.ToInt32(data.speed) + " m/s, waypoint at "
+                         + Convert.ToInt32(data.waypoint_bearing) + " deg "
+                         + Convert.ToInt32(data.waypoint_distance) + " m "
+                         + (data.obstacle_detection_left != NO_DETECTION ? "danger left " + Convert.ToInt32(data.obstacle_detection_left) + " m " : "")
+                         + (data.obstacle_detection_center != NO_DETECTION ? "danger center " + Convert.ToInt32(data.obstacle_detection_center) + " m " : "")
+                         + (data.obstacle_detection_right != NO_DETECTION ? "danger right " + Convert.ToInt32(data.obstacle_detection_right) + " m " : "")
+                         );
     }
 }

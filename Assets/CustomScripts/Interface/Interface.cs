@@ -8,11 +8,13 @@ public struct PlayerData {
     public float speed;
     public float obstacle_detection_left, obstacle_detection_center, obstacle_detection_right;
     public float waypoint_distance, waypoint_bearing;
+    public float future_waypoint_distance, future_waypoint_bearing;
 }
 
 [Serializable]
 public struct PlayerCommands {
     public bool forward, backward, left, right, handbrake;
+    public String message;
 }
 
 [Serializable]

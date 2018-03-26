@@ -32,6 +32,7 @@ public class HumanInterface : Interface {
         cmds.left = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
         cmds.right = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
         cmds.handbrake = Input.GetKey(KeyCode.X) || Input.GetKey(KeyCode.Space);
+        cmds.message = "";
         return cmds;
     }
 

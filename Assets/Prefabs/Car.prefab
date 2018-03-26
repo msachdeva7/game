@@ -2364,9 +2364,9 @@ MonoBehaviour:
   rb: {fileID: 54182488154425096}
   m_Car: {fileID: 0}
   updateEvery: 0
-  obstacleDetectionDistance: 30
+  obstacleDetectionDistance: 40
   obstacleDetectionRadius: 1
-  obstacleDetectionCenterExtension: 30
+  obstacleDetectionCenterExtension: 60
   speedText: {fileID: 0}
   wonText: {fileID: 0}
 --- !u!114 &114857321897824212

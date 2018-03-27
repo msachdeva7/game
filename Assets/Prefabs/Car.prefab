@@ -2276,8 +2276,7 @@ MonoBehaviour:
   m_SteerHelper: 0.644
   m_TractionControl: 1
   m_FullTorqueOverAllWheels: 5000
-  m_ReverseTorque: 1000
-  m_MaxHandbrakeTorque: 100000000
+  m_ReverseTorque: 0.4
   m_Downforce: 100
   m_SpeedType: 0
   m_Topspeed: 200
@@ -2364,9 +2363,7 @@ MonoBehaviour:
   rb: {fileID: 54182488154425096}
   m_Car: {fileID: 0}
   updateEvery: 0
-  obstacleDetectionDistance: 30
   obstacleDetectionRadius: 1
-  obstacleDetectionCenterExtension: 60
   dataText: {fileID: 0}
   endLevelText: {fileID: 0}
   scriptText: {fileID: 0}

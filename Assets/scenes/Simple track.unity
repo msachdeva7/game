@@ -295,11 +295,6 @@ Prefab:
       propertyPath: gm
       value: 
       objectReference: {fileID: 469506747}
-    - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_ReverseTorque
-      value: 0.4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dea7ddb3461624c3fa89b81c78c3ded4, type: 2}
   m_IsPrefabParent: 0

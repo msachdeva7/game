@@ -13,9 +13,7 @@ public class CustomCarControl : MonoBehaviour {
     public CarController m_Car; // the car controller we want to use
 
     public int updateEvery;
-    public float obstacleDetectionDistance;
     public float obstacleDetectionRadius;
-    public float obstacleDetectionCenterExtension;
     const float NO_DETECTION = 10000;
 
     public Text dataText;
@@ -100,10 +98,7 @@ public class CustomCarControl : MonoBehaviour {
             scriptText.text = cmds.message;
         }
 
-        float h = Convert.ToSingle(cmds.right) - Convert.ToSingle(cmds.left);
-        float v = Convert.ToSingle(cmds.forward) - Convert.ToSingle(cmds.backward);
-        float handbrake = Convert.ToSingle(cmds.handbrake);
-        m_Car.Move(h, v, v, handbrake);
+        m_Car.Move(cmds.steering, cmds.acceleration, cmds.brake);
 
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
 

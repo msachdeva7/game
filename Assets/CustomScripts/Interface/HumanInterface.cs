@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,11 +28,15 @@ public class HumanInterface : Interface {
         * handbrake: X, Spacebar
         */
 
-        cmds.forward = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.LeftShift);
-        cmds.backward = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.F);
-        cmds.left = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
-        cmds.right = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
-        cmds.handbrake = Input.GetKey(KeyCode.X) || Input.GetKey(KeyCode.Space);
+        bool forward = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.LeftShift);
+        bool backward = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.F);
+        bool left = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
+        bool right = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
+        bool brake = Input.GetKey(KeyCode.X) || Input.GetKey(KeyCode.Space);
+
+        cmds.steering = Convert.ToSingle(right) - Convert.ToSingle(left);
+        cmds.acceleration = Convert.ToSingle(forward) - Convert.ToSingle(backward);
+        cmds.brake = Convert.ToSingle(brake);
         cmds.message = "";
         return cmds;
     }

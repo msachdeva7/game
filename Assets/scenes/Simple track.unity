@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.73024184, g: 0.78898203, b: 0.8498679, a: 1}
+  m_IndirectSpecularColor: {r: 0.7287868, g: 0.78737247, b: 0.84785503, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -295,144 +295,10 @@ Prefab:
       propertyPath: gm
       value: 
       objectReference: {fileID: 469506747}
-    - target: {fileID: 114831243961672866, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: speedText
-      value: 
-      objectReference: {fileID: 1389815455}
-    - target: {fileID: 114831243961672866, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: wonText
-      value: 
-      objectReference: {fileID: 851111359}
-    - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_CarDriveType
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_SlipLimit
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_FullTorqueOverAllWheels
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_Topspeed
-      value: 200
-      objectReference: {fileID: 0}
     - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
         type: 2}
       propertyPath: m_ReverseTorque
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 23076551652669430, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 6021947067b9d6c4bac8d9e085a71558, type: 2}
-    - target: {fileID: 23557629452163392, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 6021947067b9d6c4bac8d9e085a71558, type: 2}
-    - target: {fileID: 23762548467793974, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 6021947067b9d6c4bac8d9e085a71558, type: 2}
-    - target: {fileID: 23985205592577178, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 6021947067b9d6c4bac8d9e085a71558, type: 2}
-    - target: {fileID: 23960804655149700, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 23568886073280720, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 23249237563281196, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 82639120277042120, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: panLevelCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 82639120277042120, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 23076551652669430, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 23557629452163392, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 82248284043081898, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: panLevelCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 82248284043081898, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 23985205592577178, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 23762548467793974, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 23074492675944646, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1169593795357682, guid: dea7ddb3461624c3fa89b81c78c3ded4, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 23960804655149700, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114108760829401172, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: rotationDamping
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114108760829401172, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: TheCar
-      value: 
-      objectReference: {fileID: 780680623}
-    - target: {fileID: 114831243961672866, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-        type: 2}
-      propertyPath: obstacleDetectionDistance
-      value: 30
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dea7ddb3461624c3fa89b81c78c3ded4, type: 2}
@@ -560,8 +426,8 @@ WindZone:
   m_Enabled: 1
   m_Mode: 0
   m_Radius: 20
-  m_WindMain: 1
-  m_WindTurbulence: 1
+  m_WindMain: 0.5
+  m_WindTurbulence: 0.5
   m_WindPulseMagnitude: 0.5
   m_WindPulseFrequency: 0.01
 --- !u!4 &592514822
@@ -776,17 +642,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c25b6c92154d74aa1b36fbef6e52f7e9, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &780680623 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1705488491631492, guid: dea7ddb3461624c3fa89b81c78c3ded4,
-    type: 2}
-  m_PrefabInternal: {fileID: 360156242}
---- !u!114 &851111359 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114573353469606872, guid: be2da6f2d056f4d65b85db2cb235cd3d,
-    type: 2}
-  m_PrefabInternal: {fileID: 2030252534}
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &939024233
 Prefab:
   m_ObjectHideFlags: 0
@@ -879,12 +734,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c25b6c92154d74aa1b36fbef6e52f7e9, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1389815455 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114829721997334438, guid: be2da6f2d056f4d65b85db2cb235cd3d,
-    type: 2}
-  m_PrefabInternal: {fileID: 2030252534}
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &1553192440
 Prefab:
   m_ObjectHideFlags: 0

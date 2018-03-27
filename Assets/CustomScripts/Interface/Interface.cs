@@ -14,7 +14,7 @@ public struct PlayerData {
 
 [Serializable]
 public struct PlayerCommands {
-    public bool forward, backward, left, right, handbrake;
+    public float steering, acceleration, brake;
     public String message;
 }
 

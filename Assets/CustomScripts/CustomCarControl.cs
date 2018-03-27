@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Assertions;
 
 using UnityStandardAssets.Vehicles.Car;
 
@@ -56,24 +57,39 @@ public class CustomCarControl : MonoBehaviour {
         m_Car = GetComponent<CarController>();
     }
 
-    private float ObstacleDetectionBeam(float angle, float min_angle, float max_angle, float additional_distance=0) {
-        Vector3 ray_direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
+    private float CastArc(float start_angle, float end_angle, float start_distance, float center_distance, float end_distance) {
+        Assert.IsTrue(start_angle < end_angle);
+        float initial_angle = (float)(Math.Asin(1 / start_distance) * (180.0 / Math.PI));
+        float position = initial_angle / (end_angle - start_angle);
+        float detection = NO_DETECTION;
         RaycastHit hit;
-        if (Physics.SphereCast(rb.position, obstacleDetectionRadius, ray_direction, out hit, obstacleDetectionDistance + additional_distance, -1, QueryTriggerInteraction.Ignore)) {
-            float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
-            if (min_angle <= hitangle && hitangle < max_angle) {
-                return hit.distance;
+        float distance;
+        for (int i = 0; i < 50; ++i) {
+            if (position < 0.5) {
+                distance = (float)((0.5 - position) * 2 * start_distance + position * 2 * center_distance);
             }
-        }
-        return NO_DETECTION;
-    }
+            else {
+                distance = (float)((1 - position) * 2 * center_distance + (position - 0.5) * 2 * end_distance);
+            }
+            float angle = (float)((1 - position) * start_angle + position * end_angle);
 
-    private float CombineBeams(params float[] args) {
-        float min = NO_DETECTION;
-        foreach (float a in args) {
-            min = Math.Min(a, min);
+            Vector3 ray_direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
+            if (Physics.SphereCast(rb.position, obstacleDetectionRadius, ray_direction, out hit, distance, -1, QueryTriggerInteraction.Ignore)) {
+                float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
+                if (start_angle <= hitangle && hitangle < end_angle) {
+                }
+                detection = Math.Min(detection, hit.distance);
+            }
+
+            if (position > 1) {
+                return detection;
+            }
+
+            float angle_increase = (float)(Math.Asin(2 / distance) * (180.0 / Math.PI));
+            position += angle_increase / (end_angle - start_angle);
         }
-        return min;
+        Debug.Log("Warning: Too many iterations in CastArc, shortcutting");
+        return detection;
     }
 
     private void FixedUpdate() {
@@ -105,11 +121,11 @@ public class CustomCarControl : MonoBehaviour {
             data.future_waypoint_distance = waypoint.magnitude;
             data.future_waypoint_bearing = Vector3.SignedAngle(waypoint, transform.forward, Vector3.up);
 
-            // If you change these values, make sure that the beams still overlap!
-            // For a obstacleDetectionDistance of 30, the beam separation can be no more than 3 degrees.
-            data.obstacle_detection_center = CombineBeams(ObstacleDetectionBeam(-3, 0, 5), ObstacleDetectionBeam(0, 0, 90, obstacleDetectionCenterExtension), ObstacleDetectionBeam(3, 0, 5));
-            data.obstacle_detection_left = CombineBeams(ObstacleDetectionBeam(-6, 5, 90), ObstacleDetectionBeam(-9, 5, 90), ObstacleDetectionBeam(-12, 5, 90));
-            data.obstacle_detection_right = CombineBeams(ObstacleDetectionBeam(6, 5, 90), ObstacleDetectionBeam(9, 5, 90), ObstacleDetectionBeam(12, 5, 90));
+            data.obstacle_detection_center = CastArc(-2, 2, 100, 150, 100);
+            data.obstacle_detection_left = CastArc(-20, -2, 40, 60, 80);
+            data.obstacle_detection_right = CastArc(2, 20, 80, 60, 40);
+            data.obstacle_detection_far_left = CastArc(-45, -20, 30, 40, 40);
+            data.obstacle_detection_far_right = CastArc(20, 45, 40, 40, 30);
 
             ShowData(data);
             gm.inter.NewData(data);
@@ -131,10 +147,10 @@ public class CustomCarControl : MonoBehaviour {
     void ShowData(PlayerData data) {
         dataText.text = (Convert.ToInt32(data.speed) + " m/s, waypoint at "
                          + Convert.ToInt32(data.waypoint_bearing) + " deg "
-                         + Convert.ToInt32(data.waypoint_distance) + " m "
-                         + (data.obstacle_detection_left != NO_DETECTION ? "danger left " + Convert.ToInt32(data.obstacle_detection_left) + " m " : "")
-                         + (data.obstacle_detection_center != NO_DETECTION ? "danger center " + Convert.ToInt32(data.obstacle_detection_center) + " m " : "")
-                         + (data.obstacle_detection_right != NO_DETECTION ? "danger right " + Convert.ToInt32(data.obstacle_detection_right) + " m " : "")
+                         + Convert.ToInt32(data.waypoint_distance) + " m OD: "
+                         + (data.obstacle_detection_left != NO_DETECTION ? "L " + Convert.ToInt32(data.obstacle_detection_left) + " m " : "")
+                         + (data.obstacle_detection_center != NO_DETECTION ? "C " + Convert.ToInt32(data.obstacle_detection_center) + " m " : "")
+                         + (data.obstacle_detection_right != NO_DETECTION ? "R " + Convert.ToInt32(data.obstacle_detection_right) + " m " : "")
                          );
     }
 }

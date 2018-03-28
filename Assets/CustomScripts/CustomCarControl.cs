@@ -14,11 +14,13 @@ public class CustomCarControl : MonoBehaviour {
 
     public int updateEvery;
     public float obstacleDetectionRadius;
+
     const float NO_DETECTION = 10000;
 
-    public Text dataText;
-    public Text endLevelText;
-    public Text scriptText;
+    Text dataText;
+    Text endLevelText;
+    Text scriptText;
+    Text timeText;
 
     bool waitingForCommands = false;
     PlayerCommands cmds;
@@ -47,6 +49,10 @@ public class CustomCarControl : MonoBehaviour {
         scriptText = GameObject.Find("ScriptText").GetComponent<Text>();
         if(scriptText == null) {
             Debug.Log("Error: Got no ScriptText!");
+        }
+        timeText = GameObject.Find("TimeText").GetComponent<Text>();
+        if(timeText == null) {
+            Debug.Log("Error: Got no TimeText!");
         }
     }
 
@@ -117,10 +123,13 @@ public class CustomCarControl : MonoBehaviour {
             data.future_waypoint_bearing = Vector3.SignedAngle(waypoint, transform.forward, Vector3.up);
 
             data.obstacle_detection_center = CastArc(-2, 2, 100, 150, 100);
-            data.obstacle_detection_left = CastArc(-20, -2, 40, 60, 80);
-            data.obstacle_detection_right = CastArc(2, 20, 80, 60, 40);
-            data.obstacle_detection_far_left = CastArc(-45, -20, 30, 40, 40);
-            data.obstacle_detection_far_right = CastArc(20, 45, 40, 40, 30);
+            data.obstacle_detection_left = CastArc(-10, -2, 40, 90, 100);
+            data.obstacle_detection_right = CastArc(2, 10, 100, 90, 40);
+            data.obstacle_detection_far_left = CastArc(-45, -10, 30, 40, 40);
+            data.obstacle_detection_far_right = CastArc(10, 45, 40, 40, 30);
+
+            data.time = frames * Time.fixedDeltaTime;
+            data.frames = frames;
 
             ShowData(data);
             gm.inter.NewData(data);
@@ -140,12 +149,15 @@ public class CustomCarControl : MonoBehaviour {
     }
 
     void ShowData(PlayerData data) {
-        dataText.text = (Convert.ToInt32(data.speed) + " m/s, waypoint at "
+        dataText.text = (Convert.ToInt32(data.speed) + " m/s, WP "
                          + Convert.ToInt32(data.waypoint_bearing) + " deg "
-                         + Convert.ToInt32(data.waypoint_distance) + " m OD: "
+                         + Convert.ToInt32(data.waypoint_distance) + " m "
+                         + (data.obstacle_detection_left != NO_DETECTION ? "FL " + Convert.ToInt32(data.obstacle_detection_far_left) + " m " : "")
                          + (data.obstacle_detection_left != NO_DETECTION ? "L " + Convert.ToInt32(data.obstacle_detection_left) + " m " : "")
                          + (data.obstacle_detection_center != NO_DETECTION ? "C " + Convert.ToInt32(data.obstacle_detection_center) + " m " : "")
                          + (data.obstacle_detection_right != NO_DETECTION ? "R " + Convert.ToInt32(data.obstacle_detection_right) + " m " : "")
+                         + (data.obstacle_detection_right != NO_DETECTION ? "FR " + Convert.ToInt32(data.obstacle_detection_far_right) + " m " : "")
                          );
+        timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
     }
 }

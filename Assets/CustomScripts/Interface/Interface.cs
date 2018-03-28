@@ -10,6 +10,8 @@ public struct PlayerData {
     public float obstacle_detection_far_left, obstacle_detection_far_right;
     public float waypoint_distance, waypoint_bearing;
     public float future_waypoint_distance, future_waypoint_bearing;
+    public float time;
+    public int frames;
 }
 
 [Serializable]

@@ -22,4 +22,8 @@ public class GameManager : MonoBehaviour {
         }
         inter.QueryEnv();
     }
+
+    void FixedUpdate() {
+        Time.timeScale = Input.GetKey(KeyCode.T) ? 0.1f : 1f;
+    }
 }

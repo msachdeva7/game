@@ -12,6 +12,11 @@ public class CustomCarControl : MonoBehaviour {
     public Rigidbody rb;
     public CarController m_Car; // the car controller we want to use
 
+	public float nitroFuel = 1; // amount of fuel left (in percentage of full tank)
+	public float nitroForce = 100000; // nitro force applied per second
+	public float nitroCost = 0.2f; // fuel burnt per second
+	public float nitroRegen = 0.01f; // fuel regenerated per second
+
     public int updateEvery;
     public float obstacleDetectionRadius;
     const float NO_DETECTION = 10000;
@@ -90,6 +95,15 @@ public class CustomCarControl : MonoBehaviour {
         return detection;
     }
 
+	private void applyNitro(float throttle) {
+		if (throttle > 0 && nitroFuel > nitroCost * Time.deltaTime) {
+			nitroFuel -= throttle * nitroCost * Time.deltaTime;
+			rb.AddRelativeForce (Vector3.forward * nitroForce * Time.deltaTime);
+		}
+		nitroFuel += nitroRegen * Time.deltaTime;
+		nitroFuel = Mathf.Clamp(nitroFuel, 0, 1);
+	}
+
     private void FixedUpdate() {
         frames++;
         if (gm.inter.HasCommands()) {
@@ -99,6 +113,8 @@ public class CustomCarControl : MonoBehaviour {
         }
 
         m_Car.Move(cmds.steering, cmds.acceleration, cmds.brake);
+
+		applyNitro(cmds.nitro);
 
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
 

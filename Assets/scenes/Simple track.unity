@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7287868, g: 0.78737247, b: 0.84785503, a: 1}
+  m_IndirectSpecularColor: {r: 0.73024184, g: 0.78898203, b: 0.8498679, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -293,8 +293,58 @@ Prefab:
     - target: {fileID: 114831243961672866, guid: dea7ddb3461624c3fa89b81c78c3ded4,
         type: 2}
       propertyPath: gm
-      value: 
+      value:
       objectReference: {fileID: 469506747}
+    - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: m_ReverseTorque
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 198590345536107764, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198590345536107764, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198590345536107764, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198590345536107764, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198590345536107764, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: randomSeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114831243961672866, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: nitroForce
+      value: 400000
+      objectReference: {fileID: 0}
+    - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: m_FullTorqueOverAllWheels
+      value: 2500
+      objectReference: {fileID: 0}
+    - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: m_SteerHelper
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114380855177544502, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+        type: 2}
+      propertyPath: m_TractionControl
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dea7ddb3461624c3fa89b81c78c3ded4, type: 2}
   m_IsPrefabParent: 0
@@ -637,6 +687,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c25b6c92154d74aa1b36fbef6e52f7e9, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &802772631 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1478419471358834, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+    type: 2}
+  m_PrefabInternal: {fileID: 360156242}
+--- !u!114 &802772637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 802772631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c38aa4a5f3c64bb6bc6fb73862d43f4, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  TheCar: {fileID: 1979292398}
 --- !u!1001 &939024233
 Prefab:
   m_ObjectHideFlags: 0
@@ -893,7 +960,7 @@ Prefab:
     - target: {fileID: 114236014218899378, guid: 0231070439efe4497a8626567a8f72f8,
         type: 2}
       propertyPath: CarTracker
-      value: 
+      value:
       objectReference: {fileID: 2129839941}
     - target: {fileID: 114236014218899378, guid: 0231070439efe4497a8626567a8f72f8,
         type: 2}
@@ -908,6 +975,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4325427089499668, guid: 0231070439efe4497a8626567a8f72f8,
     type: 2}
   m_PrefabInternal: {fileID: 1976543192}
+--- !u!1 &1979292398 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1705488491631492, guid: dea7ddb3461624c3fa89b81c78c3ded4,
+    type: 2}
+  m_PrefabInternal: {fileID: 360156242}
 --- !u!1001 &2030252534
 Prefab:
   m_ObjectHideFlags: 0

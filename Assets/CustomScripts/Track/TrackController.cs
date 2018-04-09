@@ -25,15 +25,19 @@ public class TrackController : MonoBehaviour {
 
     public Vector3 GetNextMarker() {
         return GetNextMarkers(1)[0];
-    }
+	}
 
-    public Vector3[] GetNextMarkers(int numReturned) {
-        // returns an array containing the next markers/waypoints along the track
-        Vector3[] nextMarkers = new Vector3[numReturned];
-        for (int i = 0; i < numReturned; i++) {
-            nextMarkers [i] = markers [(lastVisited + 1 + i) % numMarkers].transform.position;
-        }
-        return nextMarkers;
+	public Vector3[] GetNextMarkers(int numReturned) {
+		// returns an array containing the next markers/waypoints along the track
+		Vector3[] nextMarkers = new Vector3[numReturned];
+		for (int i = 0; i < numReturned; i++) {
+			nextMarkers [i] = markers [(lastVisited + 1 + i) % numMarkers].transform.position;
+		}
+		return nextMarkers;
+	}
+		
+    public Vector3 GetLastMarker() {
+		return markers[lastVisited].transform.position;
     }
 
     public void CarVisit(GameObject marker) {

@@ -12,10 +12,10 @@ public class CustomCarControl : MonoBehaviour {
     public Rigidbody rb;
     public CarController m_Car; // the car controller we want to use
 
-	public float nitroFuel = 1; // amount of fuel left (in percentage of full tank)
-	public float nitroForce = 100000; // nitro force applied per second
-	public float nitroCost = 0.2f; // fuel burnt per second
-	public float nitroRegen = 0.01f; // fuel regenerated per second
+    public float nitroFuel = 1; // amount of fuel left (in percentage of full tank)
+    public float nitroForce = 100000; // nitro force applied per second
+    public float nitroCost = 0.2f; // fuel burnt per second
+    public float nitroRegen = 0.01f; // fuel regenerated per second
 
     public int updateEvery;
     public float obstacleDetectionRadius;
@@ -175,5 +175,6 @@ public class CustomCarControl : MonoBehaviour {
                          + (data.obstacle_detection_right != NO_DETECTION ? "FR " + Convert.ToInt32(data.obstacle_detection_far_right) + " m " : "")
                          );
         timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
+        SpeedConverter.ShowSpeed(data.speed, 0, 120);
     }
 }

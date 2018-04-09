@@ -40,8 +40,6 @@ public class JSInterface : Interface {
     }
 
     public override void EndLevel(EndLevelData data) {
-        Time.timeScale = 0;
-        FindObjectOfType<Camera>().enabled = false;
         end_level(JsonUtility.ToJson(data));
     }
 

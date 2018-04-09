@@ -18,6 +18,8 @@ public class CustomCarControl : MonoBehaviour {
     public float nitroCost = 0.2f; // fuel burnt per second
     public float nitroRegen = 0.01f; // fuel regenerated per second
 
+	public float fuel = 1;
+
     public int updateEvery;
     public float obstacleDetectionRadius;
 
@@ -32,6 +34,7 @@ public class CustomCarControl : MonoBehaviour {
     PlayerCommands cmds;
 
     float top_speed = 0;
+	float last_speed = 0;
     int frames = 0;
     int lastUpdate = 0;
 
@@ -129,6 +132,11 @@ public class CustomCarControl : MonoBehaviour {
 
             PlayerData data;
             data.speed = rb.velocity.magnitude;
+			float acceleration = (data.speed - last_speed) / Time.fixedDeltaTime;
+			last_speed = data.speed;
+			//maximum fuel consumption factor
+			float f = 20000;
+			fuel -= Mathf.Abs(acceleration/f);
 
             Vector3[] waypoints = tc.GetNextMarkers(2);
             Vector3 waypoint = waypoints[0] - rb.position;
@@ -177,6 +185,7 @@ public class CustomCarControl : MonoBehaviour {
                          + (data.obstacle_detection_right != NO_DETECTION ? "FR " + Convert.ToInt32(data.obstacle_detection_far_right) + " m " : "")
                          );
         timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
-        SpeedConverter.ShowSpeed(data.speed, 0, 120);
+        SpeedConverter.ShowSpeed(data.speed);
+		FuelConverter.ShowFuel (fuel);
     }
 }

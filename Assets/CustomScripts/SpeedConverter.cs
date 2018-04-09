@@ -11,8 +11,8 @@ public class SpeedConverter : MonoBehaviour {
         thisSpeedo = this;
     }
 
-    public static void ShowSpeed (float speed, float min, float max) {
-        float angle = Mathf.Lerp (minAngle, maxAngle, Mathf.InverseLerp (min, max, speed));
+    public static void ShowSpeed (float speed) {
+        float angle = Mathf.Lerp (minAngle, maxAngle, Mathf.InverseLerp (0, 120, speed));
         thisSpeedo.transform.eulerAngles = new Vector3 (0, 0, angle);
     }
 }

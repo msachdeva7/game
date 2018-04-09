@@ -22,7 +22,7 @@ public struct PlayerCommands {
 
 [Serializable]
 public struct EndLevelData {
-    public float time, top_speed;
+    public float time, top_speed, fuel_used;
     public int frames;
     public String track;
 }

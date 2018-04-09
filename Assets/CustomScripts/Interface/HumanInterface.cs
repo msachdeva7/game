@@ -26,6 +26,7 @@ public class HumanInterface : Interface {
         * throttle: W, UpArrow, LeftShift, E - throttle forward
         *           S, DownArrow, F - throttle backward
         * handbrake: X, Spacebar
+        * nitro: C
         */
 
         bool forward = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.LeftShift);
@@ -33,12 +34,12 @@ public class HumanInterface : Interface {
         bool left = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
         bool right = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
         bool brake = Input.GetKey(KeyCode.X) || Input.GetKey(KeyCode.Space);
-		bool nitro = Input.GetKey(KeyCode.C);
+        bool nitro = Input.GetKey(KeyCode.C);
 
         cmds.steering = Convert.ToSingle(right) - Convert.ToSingle(left);
         cmds.acceleration = Convert.ToSingle(forward) - Convert.ToSingle(backward);
         cmds.brake = Convert.ToSingle(brake);
-		cmds.nitro = Convert.ToSingle(nitro);
+        cmds.nitro = Convert.ToSingle(nitro);
         cmds.message = "";
         return cmds;
     }

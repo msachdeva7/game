@@ -280,6 +280,8 @@ GameObject:
   - component: {fileID: 65305322616383362}
   - component: {fileID: 23228951803789986}
   - component: {fileID: 114108760829401172}
+  - component: {fileID: 114811452675043424}
+  - component: {fileID: 114479256742933756}
   m_Layer: 0
   m_Name: Camera Rig
   m_TagString: Untagged
@@ -2273,9 +2275,9 @@ MonoBehaviour:
   - {fileID: 114742252093946550}
   m_CentreOfMassOffset: {x: 0, y: 0, z: 0}
   m_MaximumSteerAngle: 25
-  m_SteerHelper: 0.644
-  m_TractionControl: 1
-  m_FullTorqueOverAllWheels: 5000
+  m_SteerHelper: 0.5
+  m_TractionControl: 0.25
+  m_FullTorqueOverAllWheels: 2500
   m_ReverseTorque: 0.4
   m_Downforce: 100
   m_SpeedType: 0
@@ -2296,6 +2298,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkidTrailPrefab: {fileID: 400000, guid: 4b6aa99de5d21424eab6ae279f31475b, type: 2}
   skidParticles: {fileID: 0}
+--- !u!114 &114479256742933756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1478419471358834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c38aa4a5f3c64bb6bc6fb73862d43f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheCar: {fileID: 1705488491631492}
 --- !u!114 &114504542319650098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2347,6 +2361,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkidTrailPrefab: {fileID: 400000, guid: 4b6aa99de5d21424eab6ae279f31475b, type: 2}
   skidParticles: {fileID: 0}
+--- !u!114 &114811452675043424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1478419471358834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c38aa4a5f3c64bb6bc6fb73862d43f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheCar: {fileID: 1705488491631492}
 --- !u!114 &114831243961672866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2362,11 +2388,12 @@ MonoBehaviour:
   tc: {fileID: 0}
   rb: {fileID: 54182488154425096}
   m_Car: {fileID: 0}
+  nitroFuel: 1
+  nitroForce: 400000
+  nitroCost: 0.2
+  nitroRegen: 0.01
   updateEvery: 0
   obstacleDetectionRadius: 1
-  dataText: {fileID: 0}
-  endLevelText: {fileID: 0}
-  scriptText: {fileID: 0}
 --- !u!114 &114857321897824212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2741,7 +2768,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -2782,7 +2809,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -2823,7 +2850,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -2864,7 +2891,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:

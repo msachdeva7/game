@@ -101,14 +101,14 @@ public class CustomCarControl : MonoBehaviour {
         return detection;
     }
 
-	private void applyNitro(float throttle) {
-		if (throttle > 0 && nitroFuel > nitroCost * Time.deltaTime) {
-			nitroFuel -= throttle * nitroCost * Time.deltaTime;
-			rb.AddRelativeForce (Vector3.forward * nitroForce * Time.deltaTime);
-		}
-		nitroFuel += nitroRegen * Time.deltaTime;
-		nitroFuel = Mathf.Clamp(nitroFuel, 0, 1);
-	}
+    private void applyNitro(float throttle) {
+        if (throttle > 0 && nitroFuel > nitroCost * Time.deltaTime) {
+            nitroFuel -= throttle * nitroCost * Time.deltaTime;
+            rb.AddRelativeForce(Vector3.forward * nitroForce * Time.deltaTime);
+        }
+        nitroFuel += nitroRegen * Time.deltaTime;
+        nitroFuel = Mathf.Clamp(nitroFuel, 0, 1);
+    }
 
     private void FixedUpdate() {
         frames++;
@@ -119,8 +119,7 @@ public class CustomCarControl : MonoBehaviour {
         }
 
         m_Car.Move(cmds.steering, cmds.acceleration, cmds.brake);
-
-		applyNitro(cmds.nitro);
+        applyNitro(cmds.nitro);
 
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
 
@@ -168,6 +167,7 @@ public class CustomCarControl : MonoBehaviour {
         dataText.text = (Convert.ToInt32(data.speed) + " m/s, WP "
                          + Convert.ToInt32(data.waypoint_bearing) + " deg "
                          + Convert.ToInt32(data.waypoint_distance) + " m "
+                         + "Nitro " + Convert.ToInt32(nitroFuel * 100) + "% "
                          + (data.obstacle_detection_left != NO_DETECTION ? "FL " + Convert.ToInt32(data.obstacle_detection_far_left) + " m " : "")
                          + (data.obstacle_detection_left != NO_DETECTION ? "L " + Convert.ToInt32(data.obstacle_detection_left) + " m " : "")
                          + (data.obstacle_detection_center != NO_DETECTION ? "C " + Convert.ToInt32(data.obstacle_detection_center) + " m " : "")

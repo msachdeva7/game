@@ -22,9 +22,9 @@ public struct PlayerCommands {
 
 [Serializable]
 public struct EndLevelData {
-    public float time;
+    public float time, top_speed;
     public int frames;
-    public float top_speed;
+    public String track;
 }
 
 public abstract class Interface : MonoBehaviour {

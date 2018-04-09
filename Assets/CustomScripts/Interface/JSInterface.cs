@@ -21,7 +21,6 @@ public class JSInterface : Interface {
     static bool hasCmds = false;
 
     public override void QueryEnv() {
-        // Load data such as track id from webpage
         Debug.Log("Querying JS environment");
         Debug.Log(query_env("{}"));
     }

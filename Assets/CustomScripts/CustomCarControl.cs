@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 using UnityStandardAssets.Vehicles.Car;
 
@@ -157,6 +158,7 @@ public class CustomCarControl : MonoBehaviour {
         data.time = frames * Time.fixedDeltaTime;
         data.frames = frames;
         data.top_speed = top_speed;
+        data.track = SceneManager.GetActiveScene().name;
         gm.inter.EndLevel(data);
         if (endLevelText.text == "") {
             endLevelText.text = "Time: " + data.time + " s\nMax speed: " + top_speed + " m/s";

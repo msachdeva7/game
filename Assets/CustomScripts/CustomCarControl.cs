@@ -36,11 +36,9 @@ public class CustomCarControl : MonoBehaviour {
     int frames = 0;
     int lastUpdate = 0;
 
-	bool stuck = false;
-	Vector3 lastPosition;
-	float secondsStuck = 0; //time we've been stuck for so far
-	float stuckTimeout = 3; //number of seconds of immobility before respawning
-	float stuckTolerance = 0.5f; //distance per second that counts as being 'non-stuck'
+    float secondsStuck = 0; //time we've been stuck for so far
+    float stuckTimeout = 3; //number of seconds of immobility before respawning
+    float stuckTolerance = 0.5f; //distance per second that counts as being 'non-stuck'
 
     private void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -67,7 +65,6 @@ public class CustomCarControl : MonoBehaviour {
         if(timeText == null) {
             Debug.Log("Error: Got no TimeText!");
         }
-		lastPosition = rb.position;
     }
 
     private void Awake() {
@@ -119,20 +116,21 @@ public class CustomCarControl : MonoBehaviour {
         nitroFuel = Mathf.Clamp(nitroFuel, 0, 1);
     }
 
-	private bool checkStuck() {
-		if ((lastPosition - rb.position).magnitude < stuckTolerance * Time.deltaTime) {
-			secondsStuck += Time.deltaTime;
-		} else {
-			secondsStuck = 0;
-		}
-		return secondsStuck > stuckTimeout;
-	}
+    private bool checkStuck() {
+        if (rb.velocity.magnitude < stuckTolerance * Time.deltaTime) {
+            secondsStuck += Time.deltaTime;
+        } else {
+            secondsStuck = 0;
+        }
+        return secondsStuck > stuckTimeout;
+    }
 
-	private void respawn() {
-		Vector3 spawnPosition = tc.GetLastMarker ();
-		Quaternion spawnRotation = Quaternion.LookRotation (tc.GetNextMarker() - spawnPosition, Vector3.up);
-		transform.SetPositionAndRotation (spawnPosition, spawnRotation);
-	}
+    private void respawn() {
+        secondsStuck = 0;
+        Vector3 spawnPosition = tc.GetLastMarker();
+        Quaternion spawnRotation = Quaternion.LookRotation(tc.GetNextMarker() - spawnPosition, Vector3.up);
+        transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+    }
 
     private void FixedUpdate() {
         frames++;
@@ -145,13 +143,11 @@ public class CustomCarControl : MonoBehaviour {
         m_Car.Move(cmds.steering, cmds.acceleration, cmds.brake);
         applyNitro(cmds.nitro);
 
-		stuck = checkStuck ();
-		if (stuck) {
-			Debug.Log("Stuck!");
-			respawn();
-		}
+        if (checkStuck()) {
+            Debug.Log("Stuck!");
+            respawn();
+        }
 
-		lastPosition = rb.position;
         fuelUsed += Mathf.Abs(cmds.acceleration);
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
 

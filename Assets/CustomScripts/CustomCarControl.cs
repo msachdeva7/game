@@ -210,11 +210,11 @@ public class CustomCarControl : MonoBehaviour {
                          + Convert.ToInt32(data.waypoint_bearing) + " deg "
                          + Convert.ToInt32(data.waypoint_distance) + " m "
                          + "Nitro " + Convert.ToInt32(nitroFuel * 100) + "% "
-                         + (data.obstacle_detection_left != NO_DETECTION ? "FL " + Convert.ToInt32(data.obstacle_detection_far_left) + " m " : "")
+                         + (data.obstacle_detection_far_left != NO_DETECTION ? "FL " + Convert.ToInt32(data.obstacle_detection_far_left) + " m " : "")
                          + (data.obstacle_detection_left != NO_DETECTION ? "L " + Convert.ToInt32(data.obstacle_detection_left) + " m " : "")
                          + (data.obstacle_detection_center != NO_DETECTION ? "C " + Convert.ToInt32(data.obstacle_detection_center) + " m " : "")
                          + (data.obstacle_detection_right != NO_DETECTION ? "R " + Convert.ToInt32(data.obstacle_detection_right) + " m " : "")
-                         + (data.obstacle_detection_right != NO_DETECTION ? "FR " + Convert.ToInt32(data.obstacle_detection_far_right) + " m " : "")
+                         + (data.obstacle_detection_far_right != NO_DETECTION ? "FR " + Convert.ToInt32(data.obstacle_detection_far_right) + " m " : "")
                          );
         timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
         SpeedConverter.ShowSpeed(data.speed);

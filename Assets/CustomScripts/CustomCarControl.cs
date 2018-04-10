@@ -24,10 +24,7 @@ public class CustomCarControl : MonoBehaviour {
 
     const float NO_DETECTION = 10000;
 
-    Text dataText;
-    Text endLevelText;
-    Text scriptText;
-    Text timeText;
+    Text dataText, endLevelText, scriptText, timeText, floatText;
 
     bool waitingForCommands = false;
     PlayerCommands cmds;
@@ -35,10 +32,13 @@ public class CustomCarControl : MonoBehaviour {
     float top_speed = 0;
     int frames = 0;
     int lastUpdate = 0;
+    float floatFadeAmount = 1;
+    public float floatFadeFactor = 4; // reverse exponential fade
+    public float floatFadeTime;
 
     float secondsStuck = 0; //time we've been stuck for so far
-    float stuckTimeout = 3; //number of seconds of immobility before respawning
-    float stuckTolerance = 0.5f; //distance per second that counts as being 'non-stuck'
+    public float stuckTimeout = 3; //number of seconds of immobility before respawning
+    public float stuckTolerance = 0.5f; //distance per second that counts as being 'non-stuck'
 
     private void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -64,6 +64,10 @@ public class CustomCarControl : MonoBehaviour {
         timeText = GameObject.Find("TimeText").GetComponent<Text>();
         if(timeText == null) {
             Debug.Log("Error: Got no TimeText!");
+        }
+        floatText = GameObject.Find("FloatText").GetComponent<Text>();
+        if(floatText == null) {
+            Debug.Log("Error: Got no FloatText!");
         }
     }
 
@@ -132,6 +136,11 @@ public class CustomCarControl : MonoBehaviour {
         transform.SetPositionAndRotation(spawnPosition, spawnRotation);
     }
 
+    public void FloatMsg(String text) {
+        floatText.text = text;
+        floatFadeAmount = 0;
+    }
+
     private void FixedUpdate() {
         frames++;
         if (gm.inter.HasCommands()) {
@@ -145,11 +154,14 @@ public class CustomCarControl : MonoBehaviour {
 
         if (checkStuck()) {
             Debug.Log("Stuck!");
+            FloatMsg("Stuck!\nReset to last waypoint");
             respawn();
         }
 
         fuelUsed += Mathf.Abs(cmds.acceleration);
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
+        floatText.color = new Color(1f, 1f, 1f, (float)(1 - (Math.Pow(floatFadeFactor, floatFadeAmount) - 1) / (floatFadeFactor - 1)));
+        floatFadeAmount = Math.Min(1, floatFadeAmount + 1 / floatFadeTime * Time.fixedDeltaTime);
 
         if (!waitingForCommands && frames >= lastUpdate + updateEvery) {
             lastUpdate = frames;

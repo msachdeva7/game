@@ -18,6 +18,7 @@ public class LoaderControl : MonoBehaviour {
     public Image trackImage;
     public TrackData[] data;
 
+    bool left_ab, right_ab, loading;
     int index = 0;
 
     void Start() {
@@ -45,21 +46,35 @@ public class LoaderControl : MonoBehaviour {
     }
 
     void LoadTrack() {
+        loading = true;
         GetComponent<Canvas>().enabled = false;
         SceneManager.LoadScene(data[index].level);
     }
 
-    void OnGUI() {
-        if (Event.current.Equals(Event.KeyboardEvent("return"))) {
+    void Update() {
+        if (loading) {
+            return;
+        }
+        if (Input.GetKey(KeyCode.Return)) {
             LoadTrack();
         }
-
-        if (Event.current.Equals(Event.KeyboardEvent("left"))) {
-            GoLeft();
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+            if (!left_ab) {
+                GoLeft();
+            }
+            left_ab = true;
         }
-
-        if (Event.current.Equals(Event.KeyboardEvent("right"))) {
-            GoRight();
+        else {
+            left_ab = false;
+        }
+        if (Input.GetKey(KeyCode.RightArrow)) {
+            if (!right_ab) {
+                GoRight();
+            }
+            right_ab = true;
+        }
+        else {
+            right_ab = false;
         }
     }
 }

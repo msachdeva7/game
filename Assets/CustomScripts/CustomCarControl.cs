@@ -95,8 +95,10 @@ public class CustomCarControl : MonoBehaviour {
             Vector3 ray_direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
             if (Physics.SphereCast(rb.position, obstacleDetectionRadius, ray_direction, out hit, distance, -1, QueryTriggerInteraction.Ignore)) {
                 float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
-                if (start_angle <= hitangle && hitangle < end_angle) {
-                }
+                detection = Math.Min(detection, hit.distance);
+            }
+            if (Physics.Raycast(rb.position, ray_direction, out hit, distance, -1, QueryTriggerInteraction.Ignore)) {
+                float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
                 detection = Math.Min(detection, hit.distance);
             }
 

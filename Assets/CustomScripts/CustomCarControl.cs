@@ -93,13 +93,20 @@ public class CustomCarControl : MonoBehaviour {
         return detection;
     }
 
-    private List<ODRay> ODRays(float end_angle, float start_distance, float end_distance) {
-        float initial_angle = (float)(Math.Asin(1 / start_distance) * (180.0 / Math.PI));
+    private List<ODRay> ODRays(float end_angle, float[] markers, float[] distances) {
+        float initial_angle = (float)(Math.Asin(1 / distances[0]) * (180.0 / Math.PI));
         float position = initial_angle / end_angle;
         List<ODRay> odr_lst = new List<ODRay>();
         for (int i = 0; i < 50; ++i) {
-            float distance = (float)((1 - position) * start_distance + position * end_distance);
             float angle = (float)(position * end_angle);
+            float distance = distances[distances.Length - 1];
+            for (int j = 0; j < markers.Length; ++j) {
+                if (angle < markers[j]) {
+                    float pos = (angle - markers[j - 1]) / (markers[j] - markers[j - 1]);
+                    distance = (float)((1 - pos) * distances[j - 1] + pos * distances[j]);
+                    break;
+                }
+            }
             ODRay odr;
             odr.bearing = angle;
             odr.distance = CastRay(angle, distance);
@@ -196,8 +203,11 @@ public class CustomCarControl : MonoBehaviour {
             data.future_waypoint_distance = waypoint.magnitude;
             data.future_waypoint_bearing = Vector3.SignedAngle(waypoint, transform.forward, Vector3.up);
 
-            List<ODRay> odrays = ODRays(45, 150, 40);
+            List<ODRay> odrays = ODRays(45, new float[]{0, 2, 6, 10, 22, 45}, new float[]{150, 100, 90, 40, 40, 30});
             data.obstacle_detection_rays = odrays.ToArray();
+
+            // TODO: Remove this from the API, replace with a client-side function
+            // Requires updated OD UI
             data.obstacle_detection_center = CombineODRays(-2, 2, odrays);
             data.obstacle_detection_left = CombineODRays(-10, -2, odrays);
             data.obstacle_detection_right = CombineODRays(2, 10, odrays);

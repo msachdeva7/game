@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
@@ -76,40 +78,55 @@ public class CustomCarControl : MonoBehaviour {
         m_Car = GetComponent<CarController>();
     }
 
-    private float CastArc(float start_angle, float end_angle, float start_distance, float center_distance, float end_distance) {
-        Assert.IsTrue(start_angle < end_angle);
-        float initial_angle = (float)(Math.Asin(1 / start_distance) * (180.0 / Math.PI));
-        float position = initial_angle / (end_angle - start_angle);
-        float detection = NO_DETECTION;
+    private float CastRay(float angle, float distance) {
         RaycastHit hit;
-        float distance;
-        for (int i = 0; i < 50; ++i) {
-            if (position < 0.5) {
-                distance = (float)((0.5 - position) * 2 * start_distance + position * 2 * center_distance);
-            }
-            else {
-                distance = (float)((1 - position) * 2 * center_distance + (position - 0.5) * 2 * end_distance);
-            }
-            float angle = (float)((1 - position) * start_angle + position * end_angle);
+        float detection = NO_DETECTION;
+        Vector3 ray_direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
+        if (Physics.SphereCast(rb.position, obstacleDetectionRadius, ray_direction, out hit, distance, -1, QueryTriggerInteraction.Ignore)) {
+            float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
+            detection = Math.Min(detection, hit.distance);
+        }
+        if (Physics.Raycast(rb.position, ray_direction, out hit, distance, -1, QueryTriggerInteraction.Ignore)) {
+            float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
+            detection = Math.Min(detection, hit.distance);
+        }
+        return detection;
+    }
 
-            Vector3 ray_direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
-            if (Physics.SphereCast(rb.position, obstacleDetectionRadius, ray_direction, out hit, distance, -1, QueryTriggerInteraction.Ignore)) {
-                float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
-                detection = Math.Min(detection, hit.distance);
-            }
-            if (Physics.Raycast(rb.position, ray_direction, out hit, distance, -1, QueryTriggerInteraction.Ignore)) {
-                float hitangle = Vector3.Angle(hit.point - rb.position, transform.forward);
-                detection = Math.Min(detection, hit.distance);
-            }
+    private List<ODRay> ODRays(float end_angle, float start_distance, float end_distance) {
+        float initial_angle = (float)(Math.Asin(1 / start_distance) * (180.0 / Math.PI));
+        float position = initial_angle / end_angle;
+        List<ODRay> odr_lst = new List<ODRay>();
+        for (int i = 0; i < 50; ++i) {
+            float distance = (float)((1 - position) * start_distance + position * end_distance);
+            float angle = (float)(position * end_angle);
+            ODRay odr;
+            odr.bearing = angle;
+            odr.distance = CastRay(angle, distance);
+            odr_lst.Add(odr);
+            ODRay odr2;
+            odr.bearing = -angle;
+            odr.distance = CastRay(-angle, distance);
+            odr_lst.Add(odr);
 
             if (position > 1) {
-                return detection;
+                return odr_lst;
             }
 
             float angle_increase = (float)(Math.Asin(2 / distance) * (180.0 / Math.PI));
-            position += angle_increase / (end_angle - start_angle);
+            position += angle_increase / end_angle;
         }
-        Debug.Log("Warning: Too many iterations in CastArc, shortcutting");
+        Debug.Log("Warning: Too many iterations in ODRays, shortcutting");
+        return odr_lst;
+    }
+
+    private float CombineODRays(float start_angle, float end_angle, List<ODRay> odrays) {
+        float detection = NO_DETECTION;
+        foreach (ODRay odray in odrays) {
+            if (odray.bearing >= start_angle && odray.bearing <= end_angle) {
+                detection = Math.Min(detection, odray.distance);
+            }
+        }
         return detection;
     }
 
@@ -179,11 +196,13 @@ public class CustomCarControl : MonoBehaviour {
             data.future_waypoint_distance = waypoint.magnitude;
             data.future_waypoint_bearing = Vector3.SignedAngle(waypoint, transform.forward, Vector3.up);
 
-            data.obstacle_detection_center = CastArc(-2, 2, 100, 150, 100);
-            data.obstacle_detection_left = CastArc(-10, -2, 40, 90, 100);
-            data.obstacle_detection_right = CastArc(2, 10, 100, 90, 40);
-            data.obstacle_detection_far_left = CastArc(-45, -10, 30, 40, 40);
-            data.obstacle_detection_far_right = CastArc(10, 45, 40, 40, 30);
+            List<ODRay> odrays = ODRays(45, 150, 40);
+            data.obstacle_detection_rays = odrays.ToArray();
+            data.obstacle_detection_center = CombineODRays(-2, 2, odrays);
+            data.obstacle_detection_left = CombineODRays(-10, -2, odrays);
+            data.obstacle_detection_right = CombineODRays(2, 10, odrays);
+            data.obstacle_detection_far_left = CombineODRays(-45, -10, odrays);
+            data.obstacle_detection_far_right = CombineODRays(10, 45, odrays);
 
             data.time = frames * Time.fixedDeltaTime;
             data.frames = frames;

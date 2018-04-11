@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrackController : MonoBehaviour {
     public GameObject[] markers;
     public int numLaps;
-    private int lastVisited = -1;
+    private int lastVisited = 0;
     private int numMarkers;
     private int lapsDone = 0;
     private CustomCarControl car;
@@ -49,7 +49,7 @@ public class TrackController : MonoBehaviour {
             lastVisited = index;
             Debug.Log("Marker " + lastVisited + " crossed");
             car.FloatMsg("Marker " + lastVisited + " passed");
-            if (index == numMarkers - 1) {
+            if (index == 0) {
                 lapsDone += 1;
                 if (lapsDone >= numLaps) {
                     car.EndLevel();

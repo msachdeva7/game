@@ -48,4 +48,18 @@ public class LoaderControl : MonoBehaviour {
         GetComponent<Canvas>().enabled = false;
         SceneManager.LoadScene(data[index].level);
     }
+
+    void OnGUI() {
+        if (Event.current.Equals(Event.KeyboardEvent("return"))) {
+            LoadTrack();
+        }
+
+        if (Event.current.Equals(Event.KeyboardEvent("left"))) {
+            GoLeft();
+        }
+
+        if (Event.current.Equals(Event.KeyboardEvent("right"))) {
+            GoRight();
+        }
+    }
 }

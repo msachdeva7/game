@@ -30,7 +30,7 @@ public struct PlayerCommands {
 
 [Serializable]
 public struct EndLevelData {
-    public float time, top_speed, fuel_used;
+    public float time, top_speed, fuel_used, distance_travelled, average_speed;
     public int frames;
     public String track;
 }

@@ -32,6 +32,7 @@ public class CustomCarControl : MonoBehaviour {
     PlayerCommands cmds;
 
     float top_speed = 0;
+    float distance_travelled = 0;
     int frames = 0;
     int lastUpdate = 0;
     float floatFadeAmount = 1;
@@ -184,6 +185,7 @@ public class CustomCarControl : MonoBehaviour {
 
         fuelUsed += Mathf.Abs(cmds.acceleration);
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
+        distance_travelled += rb.velocity.magnitude * Time.fixedDeltaTime;
         floatText.color = new Color(1f, 1f, 1f, (float)(1 - (Math.Pow(floatFadeFactor, floatFadeAmount) - 1) / (floatFadeFactor - 1)));
         floatFadeAmount = Math.Min(1, floatFadeAmount + 1 / floatFadeTime * Time.fixedDeltaTime);
 
@@ -228,6 +230,8 @@ public class CustomCarControl : MonoBehaviour {
         data.top_speed = top_speed;
         data.track = SceneManager.GetActiveScene().name;
         data.fuel_used = fuelUsed;
+        data.distance_travelled = distance_travelled;
+        data.average_speed = distance_travelled / data.time;
         gm.inter.EndLevel(data);
         if (endLevelText.text == "") {
             endLevelText.text = "Time: " + data.time + " s\nMax speed: " + top_speed + " m/s";

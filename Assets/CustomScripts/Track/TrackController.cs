@@ -30,6 +30,9 @@ public class TrackController : MonoBehaviour {
     public Vector3[] GetNextMarkers(int numReturned) {
         // returns an array containing the next markers/waypoints along the track
         Vector3[] nextMarkers = new Vector3[numReturned];
+        if (numMarkers == 0) {
+            return nextMarkers;
+        }
         for (int i = 0; i < numReturned; i++) {
             nextMarkers [i] = markers [(lastVisited + 1 + i) % numMarkers].transform.position;
         }
@@ -48,9 +51,10 @@ public class TrackController : MonoBehaviour {
         else if (index == (lastVisited + 1) % numMarkers) {
             lastVisited = index;
             Debug.Log("Marker " + lastVisited + " crossed");
-            car.FloatMsg("Marker " + lastVisited + " passed");
+            car.FloatMsg("Marker " + (lastVisited + 1) + "/" + numMarkers + " passed");
             if (index == 0) {
                 lapsDone += 1;
+                car.FloatMsg("Lap " + lapsDone + "/" + (numLaps > 0 ? numLaps : 1) + " done");
                 if (lapsDone >= numLaps) {
                     car.EndLevel();
                 }

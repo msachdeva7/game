@@ -342,9 +342,9 @@ MonoBehaviour:
   descText: {fileID: 434808163}
   trackImage: {fileID: 1040799944}
   data:
-  - title: SimpleTrack
+  - title: Forest Run
     desc: 'A simple track with a wide road and lots of corners '
-    level: Simple track
+    level: ForestRun
     image: {fileID: 21300000, guid: 1a4063b64735c423aaf4eabaab64d93f, type: 3}
   - title: level1
     desc: Large track with long straights
@@ -495,9 +495,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'A simple track with a wide road and lots of corners
-
-'
+  m_Text: Track Description
 --- !u!222 &434808164
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -757,7 +755,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: -320, y: -250}
+  m_SizeDelta: {x: 0, y: -250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1040799944
 MonoBehaviour:
@@ -1106,7 +1104,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SimpleTrack
+  m_Text: Track Title
 --- !u!222 &1997948617
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -159,6 +159,7 @@ public class CustomCarControl : MonoBehaviour {
         Vector3 spawnPosition = tc.GetLastMarker();
         Quaternion spawnRotation = Quaternion.LookRotation(tc.GetNextMarker() - spawnPosition, Vector3.up);
         transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+        rb.velocity = Vector3.zero;
     }
 
     public void FloatMsg(String text) {
@@ -180,6 +181,11 @@ public class CustomCarControl : MonoBehaviour {
         if (checkStuck()) {
             Debug.Log("Stuck!");
             FloatMsg("Stuck!\nReset to last waypoint");
+            respawn();
+        }
+        if (rb.position.y < -1f) {
+            Debug.Log("Too low!");
+            FloatMsg("Drowning/falling!\nReset to last waypoint");
             respawn();
         }
 

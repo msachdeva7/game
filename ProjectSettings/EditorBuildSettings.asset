@@ -6,14 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/scenes/loader.unity
+    path: Assets/Scenes/loader.unity
     guid: c2842a04bf10749eeb105fe2c0f57af3
   - enabled: 1
-    path: Assets/scenes/Simple track.unity
+    path: Assets/Scenes/ForestRun.unity
     guid: 4a2e10f7368304f17be37451781091f2
   - enabled: 1
-    path: Assets/scenes/level1.unity
+    path: Assets/Scenes/level1.unity
     guid: a3dcddf32fabafe49b0b43d46fb27423
   - enabled: 1
-    path: Assets/scenes/DesertInfinity.unity
+    path: Assets/Scenes/DesertInfinity.unity
     guid: a629f03cc8cb14c4bb3f0e9f797ca9b3
+  - enabled: 1
+    path: Assets/Scenes/WaterPark.unity
+    guid: 8e42b05bdc4604287845040f14962807

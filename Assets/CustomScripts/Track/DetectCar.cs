@@ -14,7 +14,7 @@ public class DetectCar : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
-            track_controller.CarVisit(this.gameObject);
+            track_controller.CarVisit(this.gameObject, other.gameObject);
         }
     }
 }

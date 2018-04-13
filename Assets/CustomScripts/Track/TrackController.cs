@@ -3,18 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TrackController : MonoBehaviour {
-    public GameObject[] markers;
+    private GameObject[] markers;
     public int numLaps;
-    private int lastVisited = 0;
-    private int numMarkers;
-    private int lapsDone = 0;
-    private CustomCarControl car;
+    public int numMarkers;
 
     void Start() {
-        car = GameObject.Find("Car").GetComponent<CustomCarControl>();
-        if(car == null) {
-            Debug.Log("Error: Got no car!");
-        }
         List<GameObject> marker_lst = new List<GameObject>();
         foreach (DetectCar dc in GetComponentsInChildren<DetectCar>()) {
             marker_lst.Add(dc.gameObject);
@@ -23,11 +16,11 @@ public class TrackController : MonoBehaviour {
         numMarkers = markers.Length;
     }
 
-    public Vector3 GetNextMarker() {
-        return GetNextMarkers(1)[0];
+    public Vector3 GetNextMarker(int lastVisited) {
+        return GetNextMarkers(lastVisited, 1)[0];
     }
 
-    public Vector3[] GetNextMarkers(int numReturned) {
+    public Vector3[] GetNextMarkers(int lastVisited, int numReturned) {
         // returns an array containing the next markers/waypoints along the track
         Vector3[] nextMarkers = new Vector3[numReturned];
         if (numMarkers == 0) {
@@ -39,29 +32,17 @@ public class TrackController : MonoBehaviour {
         return nextMarkers;
     }
 
-    public Vector3 GetLastMarker() {
+    public Vector3 GetLastMarker(int lastVisited) {
         return markers[lastVisited].transform.position;
     }
 
-    public void CarVisit(GameObject marker) {
+    public void CarVisit(GameObject marker, GameObject car) {
         int index = System.Array.IndexOf(markers, marker);
         if (index == -1) {
             Debug.Log("Error: Invalid marker");
         }
-        else if (index == (lastVisited + 1) % numMarkers) {
-            lastVisited = index;
-            Debug.Log("Marker " + lastVisited + " crossed");
-            car.FloatMsg("Marker " + (lastVisited + 1) + "/" + numMarkers + " passed");
-            if (index == 0) {
-                lapsDone += 1;
-                car.FloatMsg("Lap " + lapsDone + "/" + (numLaps > 0 ? numLaps : 1) + " done");
-                if (lapsDone >= numLaps) {
-                    car.EndLevel();
-                }
-            }
-        }
-        else if (index != lastVisited) {
-            Debug.Log("Out of order marker ignored");
+        else {
+            car.GetComponentInParent<CustomCarControl>().VisitMarker(index);
         }
     }
 }

@@ -35,6 +35,10 @@ public class CustomCarControl : MonoBehaviour {
     int frames = 0;
     int lastUpdate = 0;
 
+    // Track related
+    private int lastVisited = 0;
+    private int lapsDone = 0;
+
     float secondsStuck = 0; //time we've been stuck for so far
     public float stuckTimeout = 3; //number of seconds of immobility before respawning
     public float stuckTolerance = 0.5f; //distance per second that counts as being 'non-stuck'
@@ -116,6 +120,24 @@ public class CustomCarControl : MonoBehaviour {
         return detection;
     }
 
+    public void VisitMarker(int index) {
+        if (index == (lastVisited + 1) % tc.numMarkers) {
+            lastVisited = index;
+            Debug.Log("Marker " + lastVisited + " crossed");
+            ui.FloatingText("Marker " + (lastVisited + 1) + "/" + tc.numMarkers + " passed");
+            if (index == 0) {
+                lapsDone += 1;
+                ui.FloatingText("Lap " + lapsDone + "/" + (tc.numLaps > 0 ? tc.numLaps : 1) + " done");
+                if (lapsDone >= tc.numLaps) {
+                    EndLevel();
+                }
+            }
+        }
+        else if (index != lastVisited) {
+            Debug.Log("Out of order marker ignored");
+        }
+    }
+
     private void applyNitro(float throttle) {
         if (throttle > 0 && nitroFuel > nitroCost * Time.deltaTime) {
             nitroFuel -= throttle * nitroCost * Time.deltaTime;
@@ -136,14 +158,10 @@ public class CustomCarControl : MonoBehaviour {
 
     private void respawn() {
         secondsStuck = 0;
-        Vector3 spawnPosition = tc.GetLastMarker();
-        Quaternion spawnRotation = Quaternion.LookRotation(tc.GetNextMarker() - spawnPosition, Vector3.up);
+        Vector3 spawnPosition = tc.GetLastMarker(lastVisited);
+        Quaternion spawnRotation = Quaternion.LookRotation(tc.GetNextMarker(lastVisited) - spawnPosition, Vector3.up);
         transform.SetPositionAndRotation(spawnPosition, spawnRotation);
         rb.velocity = Vector3.zero;
-    }
-
-    public void FloatMsg(String text) {
-        ui.FloatingText(text);
     }
 
     private void FixedUpdate() {
@@ -159,12 +177,12 @@ public class CustomCarControl : MonoBehaviour {
 
         if (checkStuck()) {
             Debug.Log("Stuck!");
-            FloatMsg("Stuck!\nReset to last waypoint");
+            ui.FloatingText("Stuck!\nReset to last waypoint");
             respawn();
         }
         if (rb.position.y < -1f) {
             Debug.Log("Too low!");
-            FloatMsg("Drowning/falling!\nReset to last waypoint");
+            ui.FloatingText("Drowning/falling!\nReset to last waypoint");
             respawn();
         }
 
@@ -179,7 +197,7 @@ public class CustomCarControl : MonoBehaviour {
             data.speed = rb.velocity.magnitude;
             data.nitro_left = nitroFuel;
 
-            Vector3[] waypoints = tc.GetNextMarkers(2);
+            Vector3[] waypoints = tc.GetNextMarkers(lastVisited, 2);
             Vector3 waypoint = waypoints[0] - rb.position;
             data.waypoint_distance = waypoint.magnitude;
             data.waypoint_bearing = Vector3.SignedAngle(waypoint, transform.forward, Vector3.up);

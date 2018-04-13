@@ -822,8 +822,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705488491631492}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 441.5, y: 0.00091552734, z: 592.8}
+  m_LocalRotation: {x: -0, y: 0.87554, z: -0, w: -0.4831457}
+  m_LocalPosition: {x: 410.8, y: 1.5, z: 67.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4085563658214902}
@@ -835,7 +835,7 @@ Transform:
   - {fileID: 4040514879150168}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 237.782, z: 0}
 --- !u!4 &4619764847283164
 Transform:
   m_ObjectHideFlags: 1
@@ -2388,6 +2388,7 @@ MonoBehaviour:
   tc: {fileID: 0}
   rb: {fileID: 54182488154425096}
   m_Car: {fileID: 0}
+  ui: {fileID: 0}
   nitroFuel: 1
   nitroForce: 400000
   nitroCost: 0.2
@@ -2395,8 +2396,6 @@ MonoBehaviour:
   fuelUsed: 0
   updateEvery: 0
   obstacleDetectionRadius: 1
-  floatFadeFactor: 100
-  floatFadeTime: 3
   stuckTimeout: 5
   stuckTolerance: 0.5
 --- !u!114 &114857321897824212

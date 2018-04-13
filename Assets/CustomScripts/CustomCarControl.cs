@@ -14,6 +14,7 @@ public class CustomCarControl : MonoBehaviour {
     public TrackController tc;
     public Rigidbody rb;
     public CarController m_Car;
+    public UIControl ui;
 
     public float nitroFuel = 1; // amount of fuel left (in percentage of full tank)
     public float nitroForce = 100000; // nitro force applied per second
@@ -26,8 +27,6 @@ public class CustomCarControl : MonoBehaviour {
 
     const float NO_DETECTION = 10000;
 
-    Text dataText, endLevelText, scriptText, timeText, floatText;
-
     bool waitingForCommands = false;
     PlayerCommands cmds;
 
@@ -35,9 +34,6 @@ public class CustomCarControl : MonoBehaviour {
     float distance_travelled = 0;
     int frames = 0;
     int lastUpdate = 0;
-    float floatFadeAmount = 1;
-    public float floatFadeFactor = 4; // reverse exponential fade
-    public float floatFadeTime;
 
     float secondsStuck = 0; //time we've been stuck for so far
     public float stuckTimeout = 3; //number of seconds of immobility before respawning
@@ -52,25 +48,9 @@ public class CustomCarControl : MonoBehaviour {
         if(tc == null) {
             Debug.Log("Error: Got no tc!");
         }
-        dataText = GameObject.Find("DataText").GetComponent<Text>();
-        if(dataText == null) {
-            Debug.Log("Error: Got no DataText!");
-        }
-        endLevelText = GameObject.Find("EndLevelText").GetComponent<Text>();
-        if(endLevelText == null) {
-            Debug.Log("Error: Got no EndLevelText!");
-        }
-        scriptText = GameObject.Find("ScriptText").GetComponent<Text>();
-        if(scriptText == null) {
-            Debug.Log("Error: Got no ScriptText!");
-        }
-        timeText = GameObject.Find("TimeText").GetComponent<Text>();
-        if(timeText == null) {
-            Debug.Log("Error: Got no TimeText!");
-        }
-        floatText = GameObject.Find("FloatText").GetComponent<Text>();
-        if(floatText == null) {
-            Debug.Log("Error: Got no FloatText!");
+        ui = GameObject.Find("UI").GetComponent<UIControl>();
+        if(ui == null) {
+            Debug.Log("Error: Got no ui!");
         }
     }
 
@@ -163,8 +143,7 @@ public class CustomCarControl : MonoBehaviour {
     }
 
     public void FloatMsg(String text) {
-        floatText.text = text;
-        floatFadeAmount = 0;
+        ui.FloatingText(text);
     }
 
     private void FixedUpdate() {
@@ -172,7 +151,7 @@ public class CustomCarControl : MonoBehaviour {
         if (gm.inter.HasCommands()) {
             waitingForCommands = false;
             cmds = gm.inter.GetCommands();
-            scriptText.text = cmds.message;
+            ui.ShowCommands(cmds);
         }
 
         m_Car.Move(cmds.steering, cmds.acceleration, cmds.brake);
@@ -192,14 +171,13 @@ public class CustomCarControl : MonoBehaviour {
         fuelUsed += Mathf.Abs(cmds.acceleration);
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
         distance_travelled += rb.velocity.magnitude * Time.fixedDeltaTime;
-        floatText.color = new Color(1f, 1f, 1f, (float)(1 - (Math.Pow(floatFadeFactor, floatFadeAmount) - 1) / (floatFadeFactor - 1)));
-        floatFadeAmount = Math.Min(1, floatFadeAmount + 1 / floatFadeTime * Time.fixedDeltaTime);
 
         if (!waitingForCommands && frames >= lastUpdate + updateEvery) {
             lastUpdate = frames;
 
             PlayerData data;
             data.speed = rb.velocity.magnitude;
+            data.nitro_left = nitroFuel;
 
             Vector3[] waypoints = tc.GetNextMarkers(2);
             Vector3 waypoint = waypoints[0] - rb.position;
@@ -223,7 +201,7 @@ public class CustomCarControl : MonoBehaviour {
             data.time = frames * Time.fixedDeltaTime;
             data.frames = frames;
 
-            ShowData(data);
+            ui.ShowData(data, fuelUsed);
             gm.inter.NewData(data);
             waitingForCommands = true;
         }
@@ -238,17 +216,7 @@ public class CustomCarControl : MonoBehaviour {
         data.fuel_used = fuelUsed;
         data.distance_travelled = distance_travelled;
         data.average_speed = distance_travelled / data.time;
+        ui.EndLevel(data);
         gm.inter.EndLevel(data);
-        if (endLevelText.text == "") {
-            endLevelText.text = "Time: " + data.time + " s\nMax speed: " + top_speed + " m/s";
-        }
-    }
-
-    void ShowData(PlayerData data) {
-        dataText.text = "Nitro " + Convert.ToInt32(nitroFuel * 100) + "% ";
-        timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
-        SpeedConverter.ShowSpeed(data.speed);
-        FuelConverter.ShowFuel(1 - fuelUsed / 10000);
-        SensorControl.ShowSensors(data.obstacle_detection_rays);
     }
 }

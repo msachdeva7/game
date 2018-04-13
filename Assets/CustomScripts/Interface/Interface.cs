@@ -18,6 +18,7 @@ public struct PlayerData {
     public ODRay[] obstacle_detection_rays;
     public float waypoint_distance, waypoint_bearing;
     public float future_waypoint_distance, future_waypoint_bearing;
+    public float nitro_left;
     public float time;
     public int frames;
 }

@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 223300606732529690}
   - component: {fileID: 114731092385177824}
   - component: {fileID: 114125411433347906}
+  - component: {fileID: 114075710612990504}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -213,6 +214,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88321a6b276a9427488d2b9754e3dd71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minAngle: -11.6
+  maxAngle: -266
+--- !u!114 &114075710612990504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287483463189132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1f5b82d5be44ca0bac418d64051a16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataText: {fileID: 114829721997334438}
+  endLevelText: {fileID: 114573353469606872}
+  scriptText: {fileID: 114993088282764498}
+  timeText: {fileID: 114434833714654034}
+  floatText: {fileID: 114797554262945096}
+  fuel_converter: {fileID: 114942911053556324}
+  sensor_control: {fileID: 114150744543443668}
+  speed_converter: {fileID: 114075505894871452}
+  floatFadeFactor: 100
+  floatFadeTime: 1
 --- !u!114 &114125411433347906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -542,6 +566,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ede3ad647274ed7b6c8b4a9a5aad8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minAngle: -76.7
+  maxAngle: -193
 --- !u!114 &114993088282764498
 MonoBehaviour:
   m_ObjectHideFlags: 1

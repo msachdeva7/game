@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
         if(inter == null) {
             Debug.Log("No interface!");
         }
-        inter.QueryEnv();
+        inter.QueryEnv(this);
     }
 
     void FixedUpdate() {

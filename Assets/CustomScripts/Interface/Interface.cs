@@ -37,7 +37,7 @@ public struct EndLevelData {
 }
 
 public abstract class Interface : MonoBehaviour {
-    public abstract void QueryEnv();
+    public abstract void QueryEnv(GameManager gm);
     public abstract void NewData(PlayerData data);
     public abstract bool HasCommands();
     public abstract PlayerCommands GetCommands();

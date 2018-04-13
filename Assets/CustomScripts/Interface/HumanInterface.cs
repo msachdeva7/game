@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 
 public class HumanInterface : Interface {
-    public override void QueryEnv() {
+    public override void QueryEnv(GameManager gm) {
     }
 
     public override void NewData(PlayerData data) {

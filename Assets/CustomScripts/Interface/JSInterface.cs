@@ -1,11 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AOT;
 using System.Runtime.InteropServices;
 
 
+[Serializable]
+public struct QueryData {
+    public bool human_override;
+}
+
+
 public class JSInterface : Interface {
+    Interface proxy;
     public delegate void Callback(System.IntPtr ptr);
 
     [DllImport("__Internal")]
@@ -20,22 +28,42 @@ public class JSInterface : Interface {
     static PlayerCommands cmds;
     static bool hasCmds = false;
 
-    public override void QueryEnv() {
+    public override void QueryEnv(GameManager gm) {
         Debug.Log("Querying JS environment");
-        Debug.Log(query_env("{}"));
+        QueryData data = JsonUtility.FromJson<QueryData>(query_env("{}"));
+        if (data.human_override) {
+            Debug.Log("Interface override, proxying HumanInterface");
+            proxy = gm.GetComponent<HumanInterface>();
+            proxy.QueryEnv(gm);
+        }
     }
 
     public override void NewData(PlayerData data) {
-        new_data(JsonUtility.ToJson(data), SetCommands);
+        if (proxy != null) {
+            proxy.NewData(data);
+        }
+        else {
+            new_data(JsonUtility.ToJson(data), SetCommands);
+        }
     }
 
     public override bool HasCommands() {
-        return hasCmds;
+        if (proxy != null) {
+            return proxy.HasCommands();
+        }
+        else {
+            return hasCmds;
+        }
     }
 
     public override PlayerCommands GetCommands() {
-        hasCmds = false;
-        return cmds;
+        if (proxy != null) {
+            return proxy.GetCommands();
+        }
+        else {
+            hasCmds = false;
+            return cmds;
+        }
     }
 
     public override void EndLevel(EndLevelData data) {

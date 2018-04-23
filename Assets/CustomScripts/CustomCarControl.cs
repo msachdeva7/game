@@ -208,14 +208,6 @@ public class CustomCarControl : MonoBehaviour {
             List<ODRay> odrays = ODRays(45, new float[]{0, 2, 6, 10, 22, 45}, new float[]{150, 100, 90, 40, 40, 30});
             data.obstacle_detection_rays = odrays.ToArray();
 
-            // TODO: Remove this from the API, replace with a client-side function
-            // Requires updated OD UI
-            data.obstacle_detection_center = CombineODRays(-2, 2, odrays);
-            data.obstacle_detection_left = CombineODRays(-10, -2, odrays);
-            data.obstacle_detection_right = CombineODRays(2, 10, odrays);
-            data.obstacle_detection_far_left = CombineODRays(-45, -10, odrays);
-            data.obstacle_detection_far_right = CombineODRays(10, 45, odrays);
-
             data.time = frames * Time.fixedDeltaTime;
             data.frames = frames;
 

@@ -13,8 +13,6 @@ public struct ODRay {
 [Serializable]
 public struct PlayerData {
     public float speed;
-    public float obstacle_detection_left, obstacle_detection_center, obstacle_detection_right;
-    public float obstacle_detection_far_left, obstacle_detection_far_right;
     public ODRay[] obstacle_detection_rays;
     public float waypoint_distance, waypoint_bearing;
     public float future_waypoint_distance, future_waypoint_bearing;

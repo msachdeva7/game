@@ -1,7 +1,8 @@
 fileFormatVersion: 2
-guid: e6fec471c20b9d148b1f87910e67bea4
+guid: 55b902bffb7444aa593776c9192bc3a1
+timeCreated: 18446744011573954816
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: vehicle_skyCar_body_paintwork
     100002: vehicle_skyCar_body_parts
@@ -34,11 +35,6 @@ ModelImporter:
     100056: SkyCarWheelFrontRight
     100058: SkyCarWheelRearLeft
     100060: SkyCarWheelRearRight
-    100062: SkyCarParts
-    100064: SkyCarParts_MeshPart0
-    100066: SkyCarParts_MeshPart1
-    100068: SkyCarBody
-    100070: SkyCarComponents
     400000: vehicle_skyCar_body_paintwork
     400002: vehicle_skyCar_body_parts
     400004: vehicle_skyCar_mudGuard_frontLeft
@@ -70,11 +66,6 @@ ModelImporter:
     400056: SkyCarWheelFrontRight
     400058: SkyCarWheelRearLeft
     400060: SkyCarWheelRearRight
-    400062: SkyCarParts
-    400064: SkyCarParts_MeshPart0
-    400066: SkyCarParts_MeshPart1
-    400068: SkyCarBody
-    400070: SkyCarComponents
     2300000: vehicle_skyCar_body_paintwork
     2300002: vehicle_skyCar_body_parts
     2300004: vehicle_skyCar_mudGuard_frontLeft
@@ -103,10 +94,6 @@ ModelImporter:
     2300050: SkyCarWheelFrontRight
     2300052: SkyCarWheelRearLeft
     2300054: SkyCarWheelRearRight
-    2300056: SkyCarParts_MeshPart0
-    2300058: SkyCarParts_MeshPart1
-    2300060: SkyCarBody
-    2300062: SkyCarComponents
     3300000: vehicle_skyCar_body_paintwork
     3300002: vehicle_skyCar_body_parts
     3300004: vehicle_skyCar_mudGuard_frontLeft
@@ -135,10 +122,6 @@ ModelImporter:
     3300050: SkyCarWheelFrontRight
     3300052: SkyCarWheelRearLeft
     3300054: SkyCarWheelRearRight
-    3300056: SkyCarParts_MeshPart0
-    3300058: SkyCarParts_MeshPart1
-    3300060: SkyCarBody
-    3300062: SkyCarComponents
     4300000: vehicle_skyCar_wheel_rearLeft
     4300002: vehicle_skyCar_wheel_rearRight
     4300004: vehicle_skyCar_underside
@@ -167,31 +150,83 @@ ModelImporter:
     4300050: SkyCarBodyParts
     4300052: SkyCarBrakeLightsGlow
     4300054: SkyCarHeadLightsGlow
-    4300056: SkyCarParts_MeshPart0
-    4300058: SkyCarParts_MeshPart1
-    4300060: SkyCarComponents
-    4300062: SkyCarBody
     9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarGlass
+    second: {fileID: 2100000, guid: b980e14fa10c41f418c18de1c29d9ad6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarLightCovers
+    second: {fileID: 2100000, guid: e45a9934b49006f4896bd75f207c4ef8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarLightGlows
+    second: {fileID: 2100000, guid: 1d92e7a1d6c8e43798998c9342f377b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarPaintWhite
+    second: {fileID: 2100000, guid: 7553843683478df43997de524bcf91e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarPlastics
+    second: {fileID: 2100000, guid: 2785afb97b75016448c033cc6eabd78c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarPlate
+    second: {fileID: 2100000, guid: 74a423c4e5e86a641b8edbfd6a785801, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarUnderside
+    second: {fileID: 2100000, guid: 2ae37725b89b7c54c9c52a2339384284, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarWheelAlloy
+    second: {fileID: 2100000, guid: 9c0c6bac627cf6a449014551099e7c6d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarWheelGlow
+    second: {fileID: 2100000, guid: 7dc845d316fda074ab1db4734740a4fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkyCarWheelRubber
+    second: {fileID: 2100000, guid: b40453d8c78b67c4f9d379a5584131e4, type: 2}
   materials:
     importMaterials: 1
     materialName: 1
     materialSearch: 2
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -199,13 +234,18 @@ ModelImporter:
     globalScale: 0.01
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
-    useFileUnits: 0
-    optimizeMeshForGPU: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -214,10 +254,12 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 3
+    tangentImportMode: 4
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -228,7 +270,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 0
   humanoidOversampling: 1

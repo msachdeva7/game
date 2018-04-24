@@ -343,7 +343,7 @@ MonoBehaviour:
   trackImage: {fileID: 1040799944}
   data:
   - title: Forest Run
-    desc: 'A simple track with a wide road and lots of corners '
+    desc: A wide track with lots of corners
     level: ForestRun
     image: {fileID: 21300000, guid: 1a4063b64735c423aaf4eabaab64d93f, type: 3}
   - title: level1

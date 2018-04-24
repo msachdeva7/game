@@ -28,6 +28,9 @@ namespace UnityStandardAssets.Vehicles.Car
         [Range(0, 1)] [SerializeField] private float m_TractionControl; // 0 is no traction control, 1 is full interference
         [SerializeField] private float m_FullTorqueOverAllWheels;
         [Range(0, 1)] [SerializeField] private float m_ReverseTorque;
+        [SerializeField] private bool m_AutomaticGearbox = true;
+        [SerializeField] private int m_MinGear;
+        [SerializeField] private int m_MaxGear;
         [SerializeField] private float m_Downforce = 100f;
         [SerializeField] private SpeedType m_SpeedType;
         [SerializeField] private float m_Topspeed = 200;
@@ -46,6 +49,12 @@ namespace UnityStandardAssets.Vehicles.Car
         private Rigidbody m_Rigidbody;
         private const float k_ReversingThreshold = 0.01f;
 
+        // Variables for helping detect changes in button pressing.
+        // Shifting should trigger on the frame where the variables go from 0 to 1 only.
+        private float last_down = 0;
+        private float last_up = 0;
+        private float last_change_box = 0;
+
         public bool Skidding { get; private set; }
         public float BrakeInput { get; private set; }
         public float CurrentSteerAngle{ get { return m_SteerAngle; }}
@@ -54,9 +63,13 @@ namespace UnityStandardAssets.Vehicles.Car
         public float Revs { get; private set; }
         public float AccelInput { get; private set; }
 
+
         // Use this for initialization
         private void Start()
         {
+            m_AutomaticGearbox = true;
+            m_MinGear = 0;
+            m_MaxGear = 3;
             m_WheelMeshLocalRotations = new Quaternion[4];
             for (int i = 0; i < 4; i++)
             {
@@ -68,21 +81,53 @@ namespace UnityStandardAssets.Vehicles.Car
             m_CurrentTorque = m_FullTorqueOverAllWheels - (m_TractionControl*m_FullTorqueOverAllWheels);
         }
 
+        private void ShiftDown() {
+            if (m_GearNum > m_MinGear)
+                m_GearNum--;
+            Debug.Log("Gear " + m_GearNum);
+        }
+
+        private void ShiftUp() {
+            if (m_GearNum < m_MaxGear)
+                m_GearNum++;
+            Debug.Log("Gear " + m_GearNum);
+        }
+
+        public void ShiftGears(float down, float up) {
+            if (m_AutomaticGearbox)
+                return;
+            if (down > 0 && last_down == 0)
+                ShiftDown();
+            if (up > 0 && last_up == 0)
+                ShiftUp();
+            last_down = down;
+            last_up = up;
+        }
+
+        public void ChangeBox(float change_box) {
+            if (change_box > 0 && last_change_box == 0)
+                m_AutomaticGearbox ^= true;
+            last_change_box = change_box;
+        }
 
         private void GearChanging()
         {
+            
             float f = Mathf.Abs(CurrentSpeed/MaxSpeed);
             float upgearlimit = (1/(float) NoOfGears)*(m_GearNum + 1);
             float downgearlimit = (1/(float) NoOfGears)*m_GearNum;
 
+            if (!m_AutomaticGearbox)
+                return;
+
             if (m_GearNum > 0 && f < downgearlimit)
             {
-                m_GearNum--;
+                ShiftDown();
             }
 
             if (f > upgearlimit && (m_GearNum < (NoOfGears - 1)))
             {
-                m_GearNum++;
+                ShiftUp();
             }
         }
 

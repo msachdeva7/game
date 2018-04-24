@@ -23,7 +23,7 @@ public struct PlayerData {
 
 [Serializable]
 public struct PlayerCommands {
-    public float steering, acceleration, brake, nitro;
+    public float steering, acceleration, brake, nitro, shift_down, shift_up, change_box;
     public String message;
 }
 

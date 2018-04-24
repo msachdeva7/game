@@ -174,6 +174,9 @@ public class CustomCarControl : MonoBehaviour {
 
         m_Car.Move(cmds.steering, cmds.acceleration, cmds.brake);
         applyNitro(cmds.nitro);
+        m_Car.ShiftGears(cmds.shift_down, cmds.shift_up);
+        m_Car.ChangeBox(cmds.change_box);
+        
 
         if (checkStuck()) {
             Debug.Log("Stuck!");

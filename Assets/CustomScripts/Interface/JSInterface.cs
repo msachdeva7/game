@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using AOT;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
 
 
 [Serializable]
 public struct QueryData {
     public bool human_override;
+    public String script_name;
 }
 
 
@@ -27,15 +30,25 @@ public class JSInterface : Interface {
 
     static PlayerCommands cmds;
     static bool hasCmds = false;
+    static QueryData query_data;
 
     public override void QueryEnv(GameManager gm) {
         Debug.Log("Querying JS environment");
-        QueryData data = JsonUtility.FromJson<QueryData>(query_env("{}"));
-        if (data.human_override) {
+        query_data = JsonUtility.FromJson<QueryData>(query_env("{}"));
+        if (query_data.human_override) {
             Debug.Log("Interface override, proxying HumanInterface");
             proxy = gm.GetComponent<HumanInterface>();
             proxy.QueryEnv(gm);
         }
+    }
+
+    public override CarSetup Setup() {
+        HashAlgorithm algorithm = MD5.Create();
+        byte[] hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(query_data.script_name));
+
+        CarSetup cs;
+        cs.color = new Color(Convert.ToSingle(hash[0]) / 255f, Convert.ToSingle(hash[1]) / 255f, Convert.ToSingle(hash[2]) / 255f);
+        return cs;
     }
 
     public override void NewData(PlayerData data) {

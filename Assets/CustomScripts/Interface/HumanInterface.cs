@@ -9,6 +9,12 @@ public class HumanInterface : Interface {
     public override void QueryEnv(GameManager gm) {
     }
 
+    public override CarSetup Setup() {
+        CarSetup cs;
+        cs.color = new Color(206f / 255, 158f / 255, 0);
+        return cs;
+    }
+
     public override void NewData(PlayerData data) {
     }
 

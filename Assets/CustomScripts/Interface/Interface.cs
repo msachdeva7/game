@@ -27,6 +27,10 @@ public struct PlayerCommands {
     public String message;
 }
 
+public struct CarSetup {
+    public Color color;
+}
+
 [Serializable]
 public struct EndLevelData {
     public float time, top_speed, fuel_used, distance_travelled, average_speed;
@@ -36,6 +40,7 @@ public struct EndLevelData {
 
 public abstract class Interface : MonoBehaviour {
     public abstract void QueryEnv(GameManager gm);
+    public abstract CarSetup Setup();
     public abstract void NewData(PlayerData data);
     public abstract bool HasCommands();
     public abstract PlayerCommands GetCommands();

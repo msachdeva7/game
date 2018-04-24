@@ -29,6 +29,7 @@ public class CustomCarControl : MonoBehaviour {
 
     bool waitingForCommands = false;
     PlayerCommands cmds;
+    bool hasSetup = false;
 
     float top_speed = 0;
     float distance_travelled = 0;
@@ -61,6 +62,18 @@ public class CustomCarControl : MonoBehaviour {
     private void Awake() {
         // get the car controller
         m_Car = GetComponent<CarController>();
+    }
+
+    public void Recolor(Color color) {
+        Color old_color = transform.Find("SkyCar").transform.Find("SkyCarBodyPaintwork").GetComponent<MeshRenderer>().materials[1].color;
+        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>()) {
+            for (int i = 0; i < mr.materials.Length; ++i) {
+                if (mr.materials[i].color == old_color) {
+                    mr.materials[i].SetColor("_Color", color);
+                    mr.materials[i].SetColor("_SpecColor", color);
+                }
+            }
+        }
     }
 
     private float CastRay(float angle, float distance) {
@@ -165,6 +178,11 @@ public class CustomCarControl : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        if (!hasSetup) {
+            hasSetup = true;
+            CarSetup cs = gm.inter.Setup();
+            Recolor(cs.color);
+        }
         frames++;
         if (gm.inter.HasCommands()) {
             waitingForCommands = false;

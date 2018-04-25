@@ -43,12 +43,17 @@ public class JSInterface : Interface {
     }
 
     public override CarSetup Setup() {
-        HashAlgorithm algorithm = MD5.Create();
-        byte[] hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(query_data.script_name));
+        if (proxy != null) {
+            return proxy.Setup();
+        }
+        else {
+            HashAlgorithm algorithm = MD5.Create();
+            byte[] hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(query_data.script_name));
 
-        CarSetup cs;
-        cs.color = new Color(Convert.ToSingle(hash[0]) / 255f, Convert.ToSingle(hash[1]) / 255f, Convert.ToSingle(hash[2]) / 255f);
-        return cs;
+            CarSetup cs;
+            cs.color = new Color(Convert.ToSingle(hash[0]) / 255f, Convert.ToSingle(hash[1]) / 255f, Convert.ToSingle(hash[2]) / 255f);
+            return cs;
+        }
     }
 
     public override void NewData(PlayerData data) {

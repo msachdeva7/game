@@ -36,6 +36,9 @@ public class CustomCarControl : MonoBehaviour {
     int frames = 0;
     int lastUpdate = 0;
 
+	int historyFramerate = 20; //number of frames between ghost car snapshots
+	IList<TransformData> history = new List<TransformData>();
+
     // Track related
     private int lastVisited = 0;
     private int lapsDone = 0;
@@ -183,7 +186,7 @@ public class CustomCarControl : MonoBehaviour {
             CarSetup cs = gm.inter.Setup();
             Recolor(cs.color);
         }
-        frames++;
+		frames = gm.physicsFramesSinceStart;
         if (gm.inter.HasCommands()) {
             waitingForCommands = false;
             cmds = gm.inter.GetCommands();
@@ -204,9 +207,17 @@ public class CustomCarControl : MonoBehaviour {
             respawn();
         }
 
+		//record metrics
         fuelUsed += Mathf.Abs(cmds.acceleration);
         top_speed = Math.Max(top_speed, rb.velocity.magnitude);
         distance_travelled += rb.velocity.magnitude * Time.fixedDeltaTime;
+
+		// record ghost
+		if (frames % historyFramerate == 0) {
+			Vector3 position = rb.transform.position;
+			Quaternion rotation = rb.transform.rotation;
+			history.Add(new TransformData(position, rotation));
+		}
 
         if (!waitingForCommands && frames >= lastUpdate + updateEvery) {
             lastUpdate = frames;
@@ -244,6 +255,8 @@ public class CustomCarControl : MonoBehaviour {
         data.fuel_used = fuelUsed;
         data.distance_travelled = distance_travelled;
         data.average_speed = distance_travelled / data.time;
+		data.history = history;
+		data.historyFramerate = historyFramerate;
         ui.EndLevel(data);
         gm.inter.EndLevel(data);
     }

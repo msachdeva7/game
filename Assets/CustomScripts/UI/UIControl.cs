@@ -29,14 +29,14 @@ public class UIControl : MonoBehaviour {
 
     public void ShowData(PlayerData data, float fuelUsed) {
         dataText.text = "Nitro " + Convert.ToInt32(data.nitro_left * 100) + "% ";
-        timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
+		timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
         speed_converter.ShowSpeed(data.speed);
         fuel_converter.ShowFuel(1 - fuelUsed / 10000);
         sensor_control.ShowSensors(data.obstacle_detection_rays);
     }
 
     public void ShowCommands(PlayerCommands cmds) {
-        scriptText.text = cmds.message;
+    	scriptText.text = cmds.message;
     }
 
     public void EndLevel(EndLevelData data) {

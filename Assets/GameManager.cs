@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     public Interface inter;
+	public int physicsFramesSinceStart;
 
     // Use this for initialization
     void Start() {
@@ -21,9 +22,11 @@ public class GameManager : MonoBehaviour {
             Debug.Log("No interface!");
         }
         inter.QueryEnv(this);
+		physicsFramesSinceStart = 0;
     }
 
     void FixedUpdate() {
         Time.timeScale = Input.GetKey(KeyCode.T) ? 0.1f : 1f;
+		physicsFramesSinceStart++;
     }
 }

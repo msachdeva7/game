@@ -3,61 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostCarReplay : MonoBehaviour {
+    GameManager gm;
 
-	GameManager gm;
+    GhostCarSetup data;
 
-	EndLevelData replaySourceData;
+    void Start () {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (gm == null) {
+            Debug.Log("Error: Got no gm!");
+        }
+    }
 
-	IList<TransformData> history;
-	int historyFramerate;
+    void FixedUpdate () {
+        if (data.history == null || data.history.Count == 0) {
+            data = gm.inter.GhostSetup();
+            Debug.Log(data.history.Count);
+            if (data.history.Count == 0) {
+                gameObject.SetActive(false);
+                return;
+            }
+        }
+        int frame = gm.physicsFramesSinceStart;
 
-	int frame;
-	int indexInHistory;
+        //update the interpolation endpoints
+        int indexInHistory = frame / data.historyFramerate;
+        Debug.Log(indexInHistory);
+        TransformData lastTransform, nextTransform;
+        if (indexInHistory >= data.history.Count - 1) {
+            lastTransform = nextTransform = data.history[data.history.Count - 1];
+        }
+        else {
+            lastTransform = data.history[indexInHistory];
+            nextTransform = data.history[(indexInHistory + 1)];
+        }
 
-	//interpolation endpoints
-	TransformData lastTransform;
-	TransformData nextTransform;
+        //how far are we between the two frames?
+        float interpolation = (float)(frame % data.historyFramerate) / data.historyFramerate;
 
-	void Start () {
-		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-		if(gm == null) {
-			Debug.Log("Error: Got no gm!");
-		}
-
-		//load data from replay source
-		// =====   temp code   ====
-		replaySourceData = new EndLevelData();
-		replaySourceData.historyFramerate = 300;
-		replaySourceData.history = new List<TransformData> ();
-		history = replaySourceData.history;
-		history.Add (new TransformData (new Vector3 (385, 1, 51), Quaternion.AngleAxis (0, Vector3.up)));
-		history.Add (new TransformData (new Vector3 (100, 1, 55), Quaternion.AngleAxis (180, Vector3.up)));
-		// ===== end temp code ====
-
-		history = replaySourceData.history;
-		historyFramerate = replaySourceData.historyFramerate;
-
-		indexInHistory = 0;
-		lastTransform = history [indexInHistory];
-		nextTransform = history [(indexInHistory + 1) % history.Count];
-	}
-
-	void FixedUpdate () {
-		
-		frame = gm.physicsFramesSinceStart;
-
-		//update the interpolation endpoints
-		indexInHistory = frame / historyFramerate % history.Count;
-		lastTransform = history [indexInHistory];
-		nextTransform = history [(indexInHistory + 1) % history.Count];
-
-		//how far are we between the two frames?
-		float interpolation = (float)(frame % historyFramerate) / historyFramerate;
-
-		//compute interpolation and update position
-		Vector3 position = Vector3.Lerp (lastTransform.position, nextTransform.position, interpolation);
-		Quaternion rotation = Quaternion.Slerp (lastTransform.rotation, nextTransform.rotation, interpolation);
-		transform.SetPositionAndRotation (position, rotation);
-	}
+        //compute interpolation and update position
+        Vector3 position = Vector3.Lerp(lastTransform.position, nextTransform.position, interpolation);
+        Quaternion rotation = Quaternion.Slerp(lastTransform.rotation, nextTransform.rotation, interpolation);
+        transform.SetPositionAndRotation(position, rotation);
+    }
 
 }

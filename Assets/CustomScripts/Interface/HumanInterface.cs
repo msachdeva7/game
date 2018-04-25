@@ -15,6 +15,13 @@ public class HumanInterface : Interface {
         return cs;
     }
 
+    public override GhostCarSetup GhostSetup() {
+        GhostCarSetup gcs;
+        gcs.historyFramerate = 0;
+        gcs.history = new List<TransformData>{};
+        return gcs;
+    }
+
     public override void NewData(PlayerData data) {
     }
 

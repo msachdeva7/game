@@ -6,12 +6,15 @@ using AOT;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 
 [Serializable]
 public struct QueryData {
     public bool human_override;
     public String script_name;
+    public List<TransformData> history;
+    public int historyFramerate;
 }
 
 
@@ -34,7 +37,7 @@ public class JSInterface : Interface {
 
     public override void QueryEnv(GameManager gm) {
         Debug.Log("Querying JS environment");
-        query_data = JsonUtility.FromJson<QueryData>(query_env("{}"));
+        query_data = JsonUtility.FromJson<QueryData>(query_env("{\"track\":\"" + SceneManager.GetActiveScene().name + "\"}"));
         if (query_data.human_override) {
             Debug.Log("Interface override, proxying HumanInterface");
             proxy = gm.GetComponent<HumanInterface>();
@@ -54,6 +57,13 @@ public class JSInterface : Interface {
             cs.color = new Color(Convert.ToSingle(hash[0]) / 255f, Convert.ToSingle(hash[1]) / 255f, Convert.ToSingle(hash[2]) / 255f);
             return cs;
         }
+    }
+
+    public override GhostCarSetup GhostSetup() {
+        GhostCarSetup gcs;
+        gcs.historyFramerate = query_data.historyFramerate;
+        gcs.history = query_data.history;
+        return gcs;
     }
 
     public override void NewData(PlayerData data) {

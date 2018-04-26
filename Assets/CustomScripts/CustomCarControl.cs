@@ -33,7 +33,7 @@ public class CustomCarControl : MonoBehaviour {
 
     float top_speed = 0;
     float distance_travelled = 0;
-    int frames = 0;
+    float nitro_usage = 0;
     int lastUpdate = 0;
 
     int historyFramerate = 20; //number of frames between ghost car snapshots
@@ -157,6 +157,7 @@ public class CustomCarControl : MonoBehaviour {
     private void applyNitro(float throttle) {
         if (throttle > 0 && nitroFuel > nitroCost * Time.deltaTime) {
             nitroFuel -= throttle * nitroCost * Time.deltaTime;
+            nitro_usage += throttle * nitroCost * Time.deltaTime;
             rb.AddRelativeForce(Vector3.forward * nitroForce * Time.deltaTime);
         }
         nitroFuel += nitroRegen * Time.deltaTime;
@@ -186,7 +187,7 @@ public class CustomCarControl : MonoBehaviour {
             CarSetup cs = gm.inter.Setup();
             Recolor(cs.color);
         }
-		frames = gm.physicsFramesSinceStart;
+        int frames = gm.physicsFramesSinceStart;
         if (gm.inter.HasCommands()) {
             waitingForCommands = false;
             cmds = gm.inter.GetCommands();
@@ -248,8 +249,8 @@ public class CustomCarControl : MonoBehaviour {
 
     public void EndLevel() {
         EndLevelData data;
-        data.time = frames * Time.fixedDeltaTime;
-        data.frames = frames;
+        data.time = gm.physicsFramesSinceStart * Time.fixedDeltaTime;
+        data.frames = gm.physicsFramesSinceStart;
         data.top_speed = top_speed;
         data.track = SceneManager.GetActiveScene().name;
         data.fuel_used = fuelUsed;
@@ -257,6 +258,7 @@ public class CustomCarControl : MonoBehaviour {
         data.average_speed = distance_travelled / data.time;
         data.history = history;
         data.historyFramerate = historyFramerate;
+        data.nitro_usage = nitro_usage;
         ui.EndLevel(data);
         gm.inter.EndLevel(data);
     }

@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 
 
 public class UIControl : MonoBehaviour {
-    public Text dataText, endLevelText, scriptText, timeText, floatText;
+    public Text endLevelText, scriptText, timeText, floatText;
     public FuelConverter fuel_converter;
     public SensorControl sensor_control;
     public SpeedConverter speed_converter;
@@ -17,7 +17,7 @@ public class UIControl : MonoBehaviour {
     public float floatFadeTime;
 
     void Start() {
-        if (new List<UnityEngine.Object>{dataText, endLevelText, scriptText, timeText, floatText, fuel_converter, sensor_control, speed_converter}.Contains(null)) {
+        if (new List<UnityEngine.Object>{endLevelText, scriptText, timeText, floatText, fuel_converter, sensor_control, speed_converter}.Contains(null)) {
             Debug.Log("Error: Malformed UI!");
         }
     }
@@ -28,10 +28,9 @@ public class UIControl : MonoBehaviour {
     }
 
     public void ShowData(PlayerData data, float fuelUsed) {
-        dataText.text = "Nitro " + Convert.ToInt32(data.nitro_left * 100) + "% ";
 		timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
         speed_converter.ShowSpeed(data.speed);
-        fuel_converter.ShowFuel(1 - fuelUsed / 10000);
+		fuel_converter.ShowFuel(data.nitro_left);
         sensor_control.ShowSensors(data.obstacle_detection_rays);
     }
 

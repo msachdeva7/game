@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SensorControl : MonoBehaviour {
-    public Image sensor_image;
+    public RawImage sensor_image;
     public Image dot_prefab;
 
     Vector3 adj;
@@ -14,7 +14,7 @@ public class SensorControl : MonoBehaviour {
         RectTransform rt = dot_prefab.GetComponent<RectTransform>();
         float w_adj = rt.rect.width / 2;
         float h_adj = rt.rect.height / 2;
-        adj = new Vector3(w_adj, -68 + h_adj, 0);
+        adj = new Vector3(w_adj, h_adj, 0);
     }
 
     private Image NewDot() {

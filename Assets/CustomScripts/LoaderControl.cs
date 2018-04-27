@@ -57,6 +57,7 @@ public class LoaderControl : MonoBehaviour {
         }
         if (Input.GetKey(KeyCode.Return)) {
             LoadTrack();
+            return;
         }
         if (Input.GetKey(KeyCode.LeftArrow)) {
             if (!left_ab) {

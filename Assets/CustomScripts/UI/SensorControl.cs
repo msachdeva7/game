@@ -24,7 +24,7 @@ public class SensorControl : MonoBehaviour {
     }
 
     private void PositionDot(Image dot, ODRay odray) {
-        dot.transform.position = sensor_image.transform.position + Quaternion.Euler(0, 0, -odray.bearing) * new Vector3(0, odray.distance * 0.6f, 0) + adj;
+        dot.transform.position = sensor_image.transform.position + Quaternion.Euler(0, 0, -odray.bearing) * new Vector3(0, odray.distance * 0.5f, 0) + adj;
     }
 
     public void ShowSensors(ODRay[] odrays) {

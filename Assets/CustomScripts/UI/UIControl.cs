@@ -27,15 +27,15 @@ public class UIControl : MonoBehaviour {
         floatFadeAmount = Math.Min(1, floatFadeAmount + 1 / floatFadeTime * Time.fixedDeltaTime);
     }
 
-    public void ShowData(PlayerData data, float fuelUsed) {
-		timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
+    public void ShowData(PlayerData data) {
+        timeText.text = Math.Floor(data.time / 60) + ":" + (data.time % 60 < 10 ? "0" : "") + Math.Floor(data.time % 60);
         speed_converter.ShowSpeed(data.speed);
-		fuel_converter.ShowFuel(data.nitro_left);
+        fuel_converter.ShowFuel(data.nitro_left);
         sensor_control.ShowSensors(data.obstacle_detection_rays);
     }
 
     public void ShowCommands(PlayerCommands cmds) {
-    	scriptText.text = cmds.message;
+        scriptText.text = cmds.message;
     }
 
     public void EndLevel(EndLevelData data) {

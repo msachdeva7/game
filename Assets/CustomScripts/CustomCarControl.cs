@@ -241,7 +241,7 @@ public class CustomCarControl : MonoBehaviour {
             data.time = frames * Time.fixedDeltaTime;
             data.frames = frames;
 
-            ui.ShowData(data, fuelUsed);
+            ui.ShowData(data);
             gm.inter.NewData(data);
             waitingForCommands = true;
         }

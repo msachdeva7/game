@@ -22,7 +22,7 @@ public class SpeedCamera : MonoBehaviour {
 
 	private float currentSlide;
 	private float maxSlide = 2;
-	private float slideLerpCoeff = 0.5f;
+	private float slideLerpCoeff = 0.1f;
 	private float slideAngleCoeff = 0.05f;
 
 	void Start () {

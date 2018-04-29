@@ -40,7 +40,8 @@ public class SpeedCamera : MonoBehaviour {
 		if (Mathf.Abs (rigAngle) > 180) {
 			rigAngle = -(360 - rigAngle);
 		}
-		float targetSlide = Mathf.Clamp (rigAngle * slideAngleCoeff, -maxSlide, maxSlide);
+
+		float targetSlide = maxSlide * Mathf.Sin (Mathf.Deg2Rad * rigAngle);
 		currentSlide = Mathf.Lerp (currentSlide, targetSlide, slideLerpCoeff);
 
 		float speed = TheCar.GetComponent<CarController> ().CurrentSpeed;

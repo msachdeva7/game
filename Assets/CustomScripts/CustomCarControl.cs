@@ -155,9 +155,9 @@ public class CustomCarControl : MonoBehaviour {
     }
 
     private void applyNitro(float throttle) {
-        if (throttle > 0 && nitroFuel > nitroCost * Time.deltaTime) {
-            nitroFuel -= throttle * nitroCost * Time.deltaTime;
-            nitro_usage += throttle * nitroCost * Time.deltaTime;
+        if (throttle > 0 && nitroFuel > nitroCost * Time.fixedDeltaTime) {
+            nitroFuel -= throttle * nitroCost * Time.fixedDeltaTime;
+            nitro_usage += throttle * nitroCost * Time.fixedDeltaTime;
             rb.AddRelativeForce(Vector3.forward * nitroForce * Time.deltaTime);
         }
         nitroFuel += nitroRegen * Time.deltaTime;
@@ -165,8 +165,9 @@ public class CustomCarControl : MonoBehaviour {
     }
 
     private bool checkStuck() {
-        if (rb.velocity.magnitude < stuckTolerance * Time.deltaTime) {
-            secondsStuck += Time.deltaTime;
+		if (rb.velocity.magnitude < stuckTolerance) {
+            secondsStuck += Time.fixedDeltaTime;
+			Debug.Log("Stuck for " + secondsStuck + "seconds");
         } else {
             secondsStuck = 0;
         }

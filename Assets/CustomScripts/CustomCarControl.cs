@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 using UnityStandardAssets.Vehicles.Car;
 
+
 [RequireComponent(typeof (CarController))]
 public class CustomCarControl : MonoBehaviour {
     public GameManager gm;
@@ -15,12 +16,14 @@ public class CustomCarControl : MonoBehaviour {
     public Rigidbody rb;
     public CarController m_Car;
     public UIControl ui;
+    public AudioSource nitro_source;
 
     public float nitroFuel = 1; // amount of fuel left (in percentage of full tank)
     public float nitroForce = 100000; // nitro force applied per second
     public float nitroCost = 0.2f; // fuel burnt per second
     public float nitroRegen = 0.01f; // fuel regenerated per second
     public float fuelUsed = 0;
+    bool nitro_sound_playing = false;
 
     public int updateEvery;
     public float obstacleDetectionRadius;
@@ -156,18 +159,28 @@ public class CustomCarControl : MonoBehaviour {
 
     private void applyNitro(float throttle) {
         if (throttle > 0 && nitroFuel > nitroCost * Time.fixedDeltaTime) {
+            if (!nitro_sound_playing) {
+                nitro_sound_playing = true;
+                nitro_source.Stop();
+                nitro_source.volume = 1f;
+                nitro_source.time = 0f;
+                nitro_source.Play();
+            }
             nitroFuel -= throttle * nitroCost * Time.fixedDeltaTime;
             nitro_usage += throttle * nitroCost * Time.fixedDeltaTime;
             rb.AddRelativeForce(Vector3.forward * nitroForce * Time.deltaTime);
+        }
+        else {
+            nitro_sound_playing = false;
+            nitro_source.volume *= 0.9f;
         }
         nitroFuel += nitroRegen * Time.deltaTime;
         nitroFuel = Mathf.Clamp(nitroFuel, 0, 1);
     }
 
     private bool checkStuck() {
-		if (rb.velocity.magnitude < stuckTolerance) {
+        if (rb.velocity.magnitude < stuckTolerance) {
             secondsStuck += Time.fixedDeltaTime;
-			Debug.Log("Stuck for " + secondsStuck + "seconds");
         } else {
             secondsStuck = 0;
         }
